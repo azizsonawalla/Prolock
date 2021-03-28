@@ -1,0 +1,1 @@
+notImplemented :- writeln("Not implemented"), fail.
