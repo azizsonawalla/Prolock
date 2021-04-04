@@ -11,6 +11,9 @@ userExists :-
 newUserWorkflow :- 
     not(userExists),
     writeln("Welcome new user!"),
+    % TODO: ask for password to create new vault
+    % TODO: create new vault with password
+    % TODO: perform vault actions (add, get, remove, exit)
     notImplemented. % TODO: implement this
 
 % Existing user/returning user workflow
@@ -18,7 +21,10 @@ newUserWorkflow :-
 existingUserWorkflow :- 
     userExists, 
     writeln("Welcome back!"),
-    notImplemented. % TODO: implement this
+    % TODO: ask for password
+    % TODO: use password to unlock vault
+    % TODO: perform vault actions (add, get, remove, exit)
+    notImplemented.
 
 % Entry-point for Prolock.
 % Either initiate newUserWorkflow or existingUserWorkflow
