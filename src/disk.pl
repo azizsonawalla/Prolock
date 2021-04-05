@@ -5,7 +5,7 @@
 writeData(Data, Filename) :-
     open(Filename, write, Out),
     % TODO: write the string `Data` to file.
-    % TODO: test it works with special chars (encrypted text can contain all unicode chars)
+    % TODO: test it works with special chars (encrypted text can contain all unicode chars). Might need to conver to bytes first.
     close(Out).
 
 
@@ -14,5 +14,5 @@ writeData(Data, Filename) :-
 readData(Data, Filename) :-
     open(Filename, read, Out),
     % TODO: read data from file as string
-    % TODO: test it works with special chars (encrypted text can contain all unicode chars)
+    % TODO: test it works with special chars (encrypted text can contain all unicode chars). Might need to write as bytes, and convert back on read.
     close(Out).
