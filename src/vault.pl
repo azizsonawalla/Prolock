@@ -13,12 +13,14 @@ passwordHashFile("passHash.txt").
 
 
 % True if there is vault data saved to disk (i.e. a vault exists on disk)
+% TODO: implement this (1 hour)
 vaultExists :-
     notImplemented.
 
 
 % True if the given values are the correct password for the vault
 % Vault requires all three values (key, nonce, tag) to encrypt/decrypt
+% TODO: implement this (1 hour)
 isCorrectPassword(password(Key, Nonce, Tag)) :- 
     % TODO: Read password hash stored on disk (see disk.pl)
     % TODO: Hash password(Key, Nonce, Tag)
@@ -29,6 +31,7 @@ isCorrectPassword(password(Key, Nonce, Tag)) :-
 % `Vault` is the vault from disk, decrypted using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
 % Assumes the password is correct (use isCorrectPassword first)
+% TODO: implement this (5 hour)
 openVault(password(Key, Nonce, Tag), Vault) :- 
     % TODO: read encrypted data (as string) from disk (see disk.pl)
     % TODO: decrypt data using `Password`
@@ -38,6 +41,7 @@ openVault(password(Key, Nonce, Tag), Vault) :-
 
 % True if `Vault` is encrypted and saved to disk using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
+% TODO: implement this (5 hour)
 lockVault(password(Key, Nonce, Tag), Vault) :- 
     % TODO: build string from key-value dictionary `Vault`
     % TODO: encrypt string and store it in disk (see disk.pl)

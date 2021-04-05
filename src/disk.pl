@@ -4,6 +4,7 @@
 
 % Write the given string data to disk. Overwrites any other data in the file.
 % writeData(Data, Filename) is true if Data is written to the file called Filename
+% TODO: implement this (2 hour)
 writeData(Data, Filename) :-
     open(Filename, write, Out),
     % TODO: write the string `Data` to file.
@@ -13,6 +14,7 @@ writeData(Data, Filename) :-
 
 % Read data from the given file
 % readData(Data, Filename) is true if Data is the string data read from the file called Filename
+% TODO: implement this (3 hour)
 readData(Data, Filename) :-
     open(Filename, read, Out),
     % TODO: read data from file as string
