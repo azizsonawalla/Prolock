@@ -33,7 +33,7 @@ hash(Input, Hash) :-
 
 
 % swipl ./crypto.pl
-% ?- exampleEncryptDecrypt("this is a secret message", "this is the password").
+% ?- prolock_crypto:exampleEncryptDecrypt("this is a secret message", "this is the password").
 exampleEncryptDecrypt(Message, Key) :-
     concat("Message: ", Message, Out),
     writeln(Out),
