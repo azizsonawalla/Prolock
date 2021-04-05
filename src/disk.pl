@@ -1,3 +1,5 @@
+:- module(prolock_disk, [writeData/2, readData/2]).
+
 %% Disk Related Operations %%
 
 % Write the given string data to disk. Overwrites any other data in the file.

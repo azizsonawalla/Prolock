@@ -1,5 +1,5 @@
-:- [errors].
-:- dynamic notImplemented/0.
+:- module(prolock_vault, [vaultExists/0, isCorrectPassword/1, openVault/2, lockVault/2]).
+:- [src/errors].
 
 %% An encrypted vault %%
 

@@ -1,5 +1,5 @@
-:- [errors].
-:- dynamic notImplemented/0.
+:- module(prolock_dict, [dictIsEmpty/1, hasKey/2, value/3, insert/4, remove/3]).
+:- [src/errors].
 
 %% A key-value dictionary, where the value can be another dictionary %%
 

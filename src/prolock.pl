@@ -1,5 +1,4 @@
-:- [errors].
-:- dynamic notImplemented/0.
+:- [src/errors].
 
 % True if a user already exists
 % (See vault.pl -> vaultExists)

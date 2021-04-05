@@ -1,5 +1,5 @@
-:- [errors].
-:- dynamic notImplemented/0.
+:- module(prolock_crypto, [encrypt/5, decrypt/5, hash/2]).
+:- [src/errors].
 
 %% Cryptography related operations %%
 
