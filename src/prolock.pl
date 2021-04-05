@@ -2,9 +2,10 @@
 :- dynamic notImplemented/0.
 
 % True if a user already exists
-% Can determine the existence of a user if vault file exists
+% (See vault.pl -> vaultExists)
 userExists :- 
-    notImplemented. % TODO: implement this
+    % TODO: implement this
+    notImplemented.
 
 % New user workflow
 % No user exists already.
