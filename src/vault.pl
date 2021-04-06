@@ -1,6 +1,7 @@
 :- module(prolock_vault, [vaultExists/0, isCorrectPassword/1, openVault/2, lockVault/2, vaultFile/1, keyHashFile/1, nonceFile/1, tagFile/1]).
 :- [src/errors].
 :- [src/disk].
+:- [src/crypto].
 
 %% An encrypted vault %%
 
@@ -30,14 +31,13 @@ vaultExists :-
     tagFile(TagFile), exists(TagFile).        % tag file exists
 
 
-% True if the given values are the correct password for the vault
-% Vault requires all three values (key, nonce, tag) to encrypt/decrypt
+% True if the given values are the correct key for the vault
 % TODO: implement this (1 hour) - Aziz
-isCorrectPassword(password(Key, Nonce, Tag)) :- 
-    % TODO: Read password hash stored on disk (see disk.pl)
-    % TODO: Hash password(Key, Nonce, Tag)
-    % TODO: return true if the two hashes are equal
-    notImplemented.
+isCorrectPassword(GivenKey) :- 
+    keyHashFile(KeyFile),
+    readData(StoredKeyHash, KeyFile),
+    hash(GivenKey, GivenKeyHash),
+    GivenKeyHash = StoredKeyHash.
 
 
 % `Vault` is the vault from disk, decrypted using the given password
