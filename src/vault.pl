@@ -41,19 +41,19 @@ isCorrectPassword(GivenKey) :-
 % `Vault` is the vault from disk, decrypted using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
 % Assumes the password is correct (use isCorrectPassword first)
-% TODO: implement this (5 hour)
+% TODO: implement this (3 hour)
 openVault(password(Key, Nonce, Tag), Vault) :- 
     % TODO: read encrypted data (as string) from disk (see disk.pl)
     % TODO: decrypt data using `Password`
-    % TODO: build key-value dictionary from data
+    % TODO: build key-value dictionary from data (see dict.pl:stringToDict)
     notImplemented.
 
 
 % True if `Vault` is encrypted and saved to disk using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
-% TODO: implement this (5 hour)
+% TODO: implement this (3 hour)
 lockVault(password(Key, Nonce, Tag), Vault) :- 
-    % TODO: build string from key-value dictionary `Vault`
+    % TODO: build string from key-value dictionary `Vault`  (see dict.pl:dictToString)
     % TODO: encrypt string and store it in disk (see disk.pl)
     % TODO: hash the password(Key, Nonce, Tag) and store it to disk
     notImplemented.

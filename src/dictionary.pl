@@ -1,4 +1,4 @@
-:- module(prolock_dict, [dictIsEmpty/1, hasKey/2, value/3, insert/4, remove/3]).
+:- module(prolock_dict, [dictIsEmpty/1, hasKey/2, value/3, insert/4, remove/3, asPrologDict/2]).
 :- [src/errors].
 
 %% A key-value dictionary, where the value can be another dictionary %%
@@ -31,3 +31,27 @@ insert(Key, Value, Dict, NewDict) :- notImplemented.
 % If Dict does not have `Key`, then NewDict = Dict
 % TODO: implement this (1 hour) - Charles
 remove(Key, Dict, NewDict) :- notImplemented.
+
+
+% True if String is the string representation of Dict
+% TODO: implement this (2 hour) - Aziz
+dictToString(Dict, String) :- notImplemented.
+
+
+% True if Dict is the dictionary parsed from String
+% TODO: implement this (2 hour) - Aziz
+stringToDict(Dict, String) :- notImplemented.
+
+
+% True if PrologDict is the Prolog Dictionary version of Dict
+% TODO: Aziz
+asPrologDict(empty, prologDict{}) :- !.
+asPrologDict(String, String) :- string(String), !.
+asPrologDict(dict(Key, Value, RestDict), PrologDict) :- 
+    convert_to_atom(Key,KeyAtom),
+    asPrologDict(RestDict, RestPrologDict),
+    asPrologDict(Value, ValuePrologDict),
+    PrologDict = RestPrologDict.put(KeyAtom, ValuePrologDict).
+
+convert_to_atom(X,Atom)  :- nonvar(X),!,atom_string(Atom,X).
+convert_to_atom(X,_ )    :- var(X),!,instantiation_error(X).
