@@ -23,7 +23,6 @@ tagFile("tag.txt").
 
 
 % True if there is vault data saved to disk (i.e. a vault exists on disk)
-% TODO: test this - Aziz
 vaultExists :-
     vaultFile(VaultFile), exists(VaultFile),  % vault data file exists
     keyHashFile(KeyFile), exists(KeyFile),    % key hash file exists
@@ -32,7 +31,6 @@ vaultExists :-
 
 
 % True if the given values are the correct key for the vault
-% TODO: implement this (1 hour) - Aziz
 isCorrectPassword(GivenKey) :- 
     keyHashFile(KeyFile),
     readData(StoredKeyHash, KeyFile),
