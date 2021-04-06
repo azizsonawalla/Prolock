@@ -13,14 +13,14 @@ passwordHashFile("passHash.txt").
 
 
 % True if there is vault data saved to disk (i.e. a vault exists on disk)
-% TODO: implement this (1 hour)
+% TODO: implement this (1 hour) - Aziz
 vaultExists :-
     notImplemented.
 
 
 % True if the given values are the correct password for the vault
 % Vault requires all three values (key, nonce, tag) to encrypt/decrypt
-% TODO: implement this (1 hour)
+% TODO: implement this (1 hour) - Aziz
 isCorrectPassword(password(Key, Nonce, Tag)) :- 
     % TODO: Read password hash stored on disk (see disk.pl)
     % TODO: Hash password(Key, Nonce, Tag)

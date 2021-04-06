@@ -13,21 +13,21 @@ dictIsEmpty(empty). % only true for empty
 
 
 % True if the dictionary has the key `Key`
-% TODO: implement this (1 hour)
-hasKey(Key, dict(K,V,D)) :- notImplemented. % TODO: implement
+% TODO: implement this (1 hour) - Charles
+hasKey(Key, dict(K,V,D)) :- notImplemented.
 
 
 % True if `Value` is the value paired with `Key` in the dictionary
-% TODO: implement this (1 hour)
-value(Key, Value, dict(K,V,D)) :- notImplemented. % TODO: implement
+% TODO: implement this (1 hour) - Charles
+value(Key, Value, dict(K,V,D)) :- notImplemented.
 
 
 % True if `NewDict` is the dictionary `Dict` with `Key` and `Value` added
-% TODO: implement this (1 hour)
-insert(Key, Value, Dict, NewDict) :- notImplemented. % TODO: implement
+% TODO: implement this (1 hour) - Charles
+insert(Key, Value, Dict, NewDict) :- notImplemented.
 
 
 % True if `NewDict` is the dictionary `Dict` with `Key` removed
 % If Dict does not have `Key`, then NewDict = Dict
-% TODO: implement this (1 hour)
-remove(Key, Dict, NewDict) :- notImplemented. % TODO: implement
+% TODO: implement this (1 hour) - Charles
+remove(Key, Dict, NewDict) :- notImplemented.

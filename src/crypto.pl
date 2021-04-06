@@ -26,7 +26,7 @@ decrypt(Decrypted, Key, Nonce, Tag, Encrypted) :-
 
 % True if `Hash` is the hashed string `Input`
 % Must be a deterministic hash! (i.e. same string hashed twice should produce same hash)
-% TODO: implement this (1 hour)
+% TODO: implement this (1 hour) - Aziz
 hash(Input, Hash) :-
     % TODO: implement this 
     notImplemented.
