@@ -1,5 +1,6 @@
-:- module(prolock_dict, [dictIsEmpty/1, hasKey/2, value/3, insert/4, remove/3, asPrologDict/2]).
+:- module(prolock_dict).
 :- [src/errors].
+:- use_module(library(http/json)).
 
 %% A key-value dictionary, where the value can be another dictionary %%
 
@@ -34,8 +35,9 @@ remove(Key, Dict, NewDict) :- notImplemented.
 
 
 % True if String is the string representation of Dict
-% TODO: implement this (2 hour) - Aziz
-dictToString(Dict, String) :- notImplemented.
+dictToString(Dict, String) :- 
+    asPrologDict(Dict, PrologDict),
+    term_string(PrologDict, String).
 
 
 % True if Dict is the dictionary parsed from String
@@ -45,7 +47,7 @@ stringToDict(Dict, String) :- notImplemented.
 
 % True if PrologDict is the Prolog Dictionary version of Dict
 % TODO: Aziz
-asPrologDict(empty, prologDict{}) :- !.
+asPrologDict(empty, pdict{}) :- !.
 asPrologDict(String, String) :- string(String), !.
 asPrologDict(dict(Key, Value, RestDict), PrologDict) :- 
     convert_to_atom(Key,KeyAtom),
