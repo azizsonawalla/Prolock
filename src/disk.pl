@@ -1,4 +1,4 @@
-:- module(prolock_disk, [writeData/2, readData/2]).
+:- module(prolock_disk, [writeData/2, readData/2, exists/1, delete/1]).
 
 %% Disk Related Operations %%
 
@@ -20,3 +20,11 @@ readData(Data, Filename) :-
     % TODO: read data from file as string
     % TODO: test it works with special chars (encrypted text can contain all unicode chars). Might need to write as bytes, and convert back on read.
     close(Out).
+
+
+% True if a file with the given name exists
+exists(Filename) :- exists_file(Filename).
+
+
+% True if the file with the given name has been deleted
+delete(Filename) :- delete_file(Filename).

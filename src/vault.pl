@@ -1,5 +1,6 @@
-:- module(prolock_vault, [vaultExists/0, isCorrectPassword/1, openVault/2, lockVault/2]).
+:- module(prolock_vault, [vaultExists/0, isCorrectPassword/1, openVault/2, lockVault/2, vaultFile/1, keyHashFile/1, nonceFile/1, tagFile/1]).
 :- [src/errors].
+:- [src/disk].
 
 %% An encrypted vault %%
 
@@ -8,14 +9,25 @@
 vaultFile("vault.txt").
 
 
-% The filename for storing hashed password
-passwordHashFile("passHash.txt").
+% The filename for storing hashed key
+keyHashFile("keyHash.txt").
+
+
+% The filename for storing the Nonce
+nonceFile("nonce.txt").
+
+
+% The filename for storing the Tag
+tagFile("tag.txt").
 
 
 % True if there is vault data saved to disk (i.e. a vault exists on disk)
-% TODO: implement this (1 hour) - Aziz
+% TODO: test this - Aziz
 vaultExists :-
-    notImplemented.
+    vaultFile(VaultFile), exists(VaultFile),  % vault data file exists
+    keyHashFile(KeyFile), exists(KeyFile),    % key hash file exists
+    nonceFile(NonceFile), exists(NonceFile),  % nonce file exists
+    tagFile(TagFile), exists(TagFile).        % tag file exists
 
 
 % True if the given values are the correct password for the vault
