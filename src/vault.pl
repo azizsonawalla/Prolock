@@ -43,9 +43,13 @@ isCorrectPassword(GivenKey) :-
 % `Vault` is a key-value dictionary (see dict.pl)
 % Assumes the password is correct (use isCorrectPassword first)
 % TODO: test when readData has been implemented - Aziz
-openVault(password(Key, Nonce, Tag), Vault) :- 
-    vaultFile(Filename),
-    readData(EncryptedVaultData, Filename),
+openVault(Key, Vault) :- 
+    nonceFile(NonceFile),
+    readData(Nonce, NonceFile),
+    tagFile(TagFile),
+    readData(Tag, TagFile),
+    vaultFile(VaultFile),
+    readData(EncryptedVaultData, VaultFile),
     decrypt(StringVaultData, Key, Nonce, Tag, EncryptedVaultData),
     stringToDict(Vault, StringVaultData).
 
