@@ -34,26 +34,14 @@ insert(Key, Value, Dict, NewDict) :- notImplemented.
 remove(Key, Dict, NewDict) :- notImplemented.
 
 
+% True if the given variable is a dictionary
+isDict(empty).
+isDict(dict(Key,Value,Rest)) :- string(Key), (string(Value) ; isDict(Value)), isDict(Rest).
+
+
 % True if String is the string representation of Dict
-dictToString(Dict, String) :- 
-    asPrologDict(Dict, PrologDict),
-    term_string(PrologDict, String).
+dictToString(Dict, String) :- nonvar(Dict), isDict(Dict), term_string(Dict, String), !.
 
 
 % True if Dict is the dictionary parsed from String
-% TODO: implement this (2 hour) - Aziz
-stringToDict(Dict, String) :- notImplemented.
-
-
-% True if PrologDict is the Prolog Dictionary version of Dict
-% TODO: Aziz
-asPrologDict(empty, pdict{}) :- !.
-asPrologDict(String, String) :- string(String), !.
-asPrologDict(dict(Key, Value, RestDict), PrologDict) :- 
-    convert_to_atom(Key,KeyAtom),
-    asPrologDict(RestDict, RestPrologDict),
-    asPrologDict(Value, ValuePrologDict),
-    PrologDict = RestPrologDict.put(KeyAtom, ValuePrologDict).
-
-convert_to_atom(X,Atom)  :- nonvar(X),!,atom_string(Atom,X).
-convert_to_atom(X,_ )    :- var(X),!,instantiation_error(X).
+stringToDict(Dict, String) :- nonvar(String), term_string(Dict, String), isDict(Dict), !.

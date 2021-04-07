@@ -4,23 +4,27 @@
 % To run the tests:
 % ?- run_tests.
 
-test(asPrologDict) :- 
-    asPrologDict(empty, pdict{}),
-    asPrologDict("a string", "a string"),
-    asPrologDict(dict("Hello", "World", empty), pdict{'Hello': "World"}),
-    asPrologDict(
-        dict("foo", dict("Bar", "Buz buzz", empty), dict("Fizz", "Bar foo", empty)), 
-        pdict{'Fizz':"Bar foo", foo:pdict{'Bar':"Buz buzz"}}
-    ).
-
 
 test(dictToString) :-
-    dictToString(empty, "pdict{}"),
-    dictToString(dict("foo", "bar", empty), "pdict{ foo: \"bar\"}"),
+    dictToString(empty, "empty"),
+    dictToString(dict("foo", "bar", empty), "dict(\"foo\",\"bar\",empty)"),
     dictToString(
         dict("foo", dict("Bar", "Buz buzz", empty), dict("Fizz", "Bar foo", empty)), 
-        "pdict{'Fizz':\"Bar foo\",foo:pdict{'Bar':\"Buz buzz\"}}"
+        "dict(\"foo\",dict(\"Bar\",\"Buz buzz\",empty),dict(\"Fizz\",\"Bar foo\",empty))"
     ).
+
+test(stringToDict) :-
+    stringToDict(empty, "empty"),
+    stringToDict(dict("foo", "bar", empty), "dict(\"foo\",\"bar\",empty)"),
+    stringToDict(
+        dict("foo", dict("Bar", "Buz buzz", empty), dict("Fizz", "Bar foo", empty)), 
+        "dict(\"foo\",dict(\"Bar\",\"Buz buzz\",empty),dict(\"Fizz\",\"Bar foo\",empty))"
+    ).
+
+test(dict_string_dict) :-
+    Dict = dict("foo", dict("Bar", "Buz buzz", empty), dict("Fizz", "Bar foo", empty)),
+    dictToString(Dict, String),
+    stringToDict(Dict, String).
 
 
 :- end_tests(dictionary).

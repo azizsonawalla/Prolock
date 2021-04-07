@@ -2,6 +2,7 @@
 :- [src/errors].
 :- [src/disk].
 :- [src/crypto].
+:- [src/dictionary].
 
 %% An encrypted vault %%
 
@@ -41,12 +42,12 @@ isCorrectPassword(GivenKey) :-
 % `Vault` is the vault from disk, decrypted using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
 % Assumes the password is correct (use isCorrectPassword first)
-% TODO: implement this (3 hour)
+% TODO: test when readData has been implemented - Aziz
 openVault(password(Key, Nonce, Tag), Vault) :- 
-    % TODO: read encrypted data (as string) from disk (see disk.pl)
-    % TODO: decrypt data using `Password`
-    % TODO: build key-value dictionary from data (see dict.pl:stringToDict)
-    notImplemented.
+    vaultFile(Filename),
+    readData(EncryptedVaultData, Filename),
+    decrypt(StringVaultData, Key, Nonce, Tag, EncryptedVaultData),
+    stringToDict(Vault, StringVaultData).
 
 
 % True if `Vault` is encrypted and saved to disk using the given password
