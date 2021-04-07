@@ -1,10 +1,13 @@
-:- module(prolock_vault, [vaultExists/0, isCorrectPassword/1, openVault/2, lockVault/2, vaultFile/1, keyHashFile/1, nonceFile/1, tagFile/1]).
+:- module(prolock_vault).
 :- [src/errors].
 :- [src/disk].
 :- [src/crypto].
 :- [src/dictionary].
 
-%% An encrypted vault %%
+
+%%%%%%%%%%%%%%%%%%%%%%
+% An encrypted vault %
+%%%%%%%%%%%%%%%%%%%%%%
 
 
 % The filename for storing encrypted vault data
@@ -21,6 +24,10 @@ nonceFile("nonce.txt").
 
 % The filename for storing the Tag
 tagFile("tag.txt").
+
+
+% True if Vault is a fresh vault
+newVault(Vault) :- Vault = empty.
 
 
 % True if there is vault data saved to disk (i.e. a vault exists on disk)
@@ -62,3 +69,32 @@ lockVault(password(Key, Nonce, Tag), Vault) :-
     % TODO: encrypt string and store it in disk (see disk.pl)
     % TODO: hash the password(Key, Nonce, Tag) and store it to disk
     notImplemented.
+
+
+% True if the given Vault has been flushed to disk with the given Key
+% Nonce and Tag are generated
+% TODO: implement this
+flushVaultToDisk(Vault, password(Key,Nonce,Tag)) :- 
+    % TODO: lock the vault with the password (vault:lockVault)
+    % TODO: reopen vault (vault:openVault)
+    notImplemented.
+
+
+% True if NewVault is Vault with the given record added
+% TODO: implement this
+addToVault(record(Domain,Username,Password),Vault,NewVault) :- notImplemented.
+
+
+% True if NewVault is Vault with the given record removed
+% Domain must be bound. If Username is not bound, then all records for domain are removed.
+% If Username is bound, only the record for the given username is removed fromd domain.
+% TODO: implement this
+deleteFromVault(record(Domain,Username,_),Vault,NewVault) :- notImplemented.
+
+
+% True if Results is a dictionary of records in Vault that match given record
+% If Domain is not bound, then Results = Vault
+% If Domain is bound, but Username is not, then Results is all results for the domain
+% If Domain and Username is bound, then Results is the record for that username in the domain
+% TODO: implement this
+getFromVault(record(Domain,Username,_),Vault,Results) :- notImplemented.

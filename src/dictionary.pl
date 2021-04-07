@@ -2,11 +2,15 @@
 :- [src/errors].
 :- use_module(library(http/json)).
 
-%% A key-value dictionary, where the value can be another dictionary %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% A key-value dictionary %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % A dictionary is:
 % empty
 % dict(Key, Value, Dict) where Key-Value is a pair in dict, Dict is the rest of the dictionary
+% Value can be string or another dictionary
 
 
 % True if the dictionary has no values
