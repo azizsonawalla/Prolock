@@ -24,12 +24,10 @@ decrypt(Decrypted, Key, Nonce, Tag, Encrypted) :-
     crypto_data_decrypt(Encrypted, Algorithm, Key, Nonce, Decrypted, [tag(Tag)]).
 
 
-% True if `Hash` is the hashed string `Input`
+% True if `Hash` is the hashed string `Input` using SHA-256
 % Must be a deterministic hash! (i.e. same string hashed twice should produce same hash)
-% TODO: implement this (1 hour) - Aziz
-hash(Input, Hash) :-
-    % TODO: implement this 
-    notImplemented.
+hash(Input, Hash) :- 
+    crypto_data_hash(Input, Hash, [algorithm('sha256')]).
 
 
 % swipl ./crypto.pl

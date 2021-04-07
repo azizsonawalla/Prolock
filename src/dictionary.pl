@@ -1,5 +1,6 @@
-:- module(prolock_dict, [dictIsEmpty/1, hasKey/2, value/3, insert/4, remove/3]).
+:- module(prolock_dict).
 :- [src/errors].
+:- use_module(library(http/json)).
 
 %% A key-value dictionary, where the value can be another dictionary %%
 
@@ -31,3 +32,16 @@ insert(Key, Value, Dict, NewDict) :- notImplemented.
 % If Dict does not have `Key`, then NewDict = Dict
 % TODO: implement this (1 hour) - Charles
 remove(Key, Dict, NewDict) :- notImplemented.
+
+
+% True if the given variable is a dictionary
+isDict(empty).
+isDict(dict(Key,Value,Rest)) :- string(Key), (string(Value) ; isDict(Value)), isDict(Rest).
+
+
+% True if String is the string representation of Dict
+dictToString(Dict, String) :- nonvar(Dict), isDict(Dict), term_string(Dict, String), !.
+
+
+% True if Dict is the dictionary parsed from String
+stringToDict(Dict, String) :- nonvar(String), term_string(Dict, String), isDict(Dict), !.
