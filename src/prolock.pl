@@ -36,7 +36,7 @@ existingUserWorkflow :-
 
 
 % Takes inputs from user and performs actions on the given vault
-% TODO: implement this (3 hours)
+% TODO: implement this (1 hour)
 performVaultActions(Vault, Key) :- 
     % TODO: Get next command from user (cli:getNextCommand)
     % TODO: If command was to exit, lock vault and exit. (cli:isExitCommand)
