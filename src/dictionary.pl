@@ -15,18 +15,19 @@ dictIsEmpty(empty). % only true for empty
 
 % True if the dictionary has the key `Key`
 hasKey(Key, dict(K,V,D)) :- dif(Key, K), hasKey(Key, D).
-hasKey(Key, dict(Key,_,_)) :- true.
+hasKey(Key, dict(Key,_,_)).
 
 
 % True if `Value` is the value paired with `Key` in the dictionary
 % TODO: implement this (1 hour) - Charles
-value(Key, Value, dict(K,V,D)) :- value(Key, Value, D).
+value(Key, Value, dict(K,V,D)) :- dif(Key, K), value(Key, Value, D).
 value(Key, Value, dict(Key,Value,D)) :- true.
 
 
 % True if `NewDict` is the dictionary `Dict` with `Key` and `Value` added
 % TODO: implement this (1 hour) - Charles
-insert(Key, Value, empty,           dict(Key, Value, empty)) :- true.
+% If key already exists, replaces the value
+insert(Key, Value, empty, dict(Key, Value, empty)).
 insert(Key, Value, dict(Key, V, D), dict(Key, Value, D)).
 insert(Key, Value, dict(K, V, D), dict(K, V, D2)) :- dif(Key, K), insert(Key, Value, D, D2).
 
@@ -36,7 +37,7 @@ insert(Key, Value, dict(K, V, D), dict(K, V, D2)) :- dif(Key, K), insert(Key, Va
 % TODO: implement this (1 hour) - Charles
 remove(Key, dict(Key, V, D), D).
 remove(Key, dict(K, V, D), dict(K, V, D2)) :- dif(Key, K), remove(Key, D, D2).
-remove(Key, Dict, Dict) :- not(hasKey(Key, Dict)).  
+remove(Key, empty, empty).  
 
 
 % True if the given variable is a dictionary

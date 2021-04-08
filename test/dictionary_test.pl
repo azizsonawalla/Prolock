@@ -4,14 +4,14 @@
 % To run the tests:
 % ?- run_tests.
 
-test(hasKey,[nondet]) :- % used the [nondet] option to supress the error "Test succeeded with choicepoint"
+test(hasKey) :- 
     not(hasKey("Bar", empty)),
     not(hasKey("Bar", dict("Foo", "Buz buzz", empty))),
         hasKey("Bar", dict("Bar", "Buz buzz", dict("Baz", "Boo", empty))),
         hasKey("Baz", dict("Bar", "Buz buzz", dict("Baz", "Boo", empty))),
         hasKey("Boo", dict("Bar", "Buz buzz", dict("Boo", "Laa", dict("Baz", "Buzz", empty)))).
 
-test(value,[nondet]) :-
+test(value) :-
     not(value("Bar", "Buzz",     empty)),
     not(value("Bar", "Buzz",     dict("Foo", "Buz buzz", empty))),
     not(value("Bar", "Buzz",     dict("Foo", "Buz buzz", dict("Bar", "Not Buzz", dict("Zoo", "Foo", empty))))),
@@ -19,13 +19,13 @@ test(value,[nondet]) :-
         value("Baz", "Boo",      dict("Bar", "Buz buzz", dict("Baz", "Boo", empty))),
         value("Bar", "Buzz",     dict("Foo", "Buz buzz", dict("Bar", "Buzz", dict("Zoo", "Foo", empty)))).
 
-test(insert, [nondet]) :-
+test(insert) :-
     not(insert("Bar", "Foo", empty,                     empty)),
         insert("Bar", "Foo", empty,                     dict("Bar", "Foo", empty)),
         insert("Bar", "Foo", dict("Laa", "Baa", empty), dict("Laa", "Baa", dict("Bar", "Foo", empty))),
         insert("Bar", "Foo", dict("Bar", "Baa", dict("Laa", "Baa", empty)), dict("Bar", "Foo", dict("Laa", "Baa", empty))).
 
-test(remove, [nondet]) :-
+test(remove) :-
     remove("Bar", empty, empty),
     remove("Bar", 
         dict("Baz", "Laa", dict("Bam", "Boo", dict("Bar", "Haha", dict("Laa", "Zaa", empty)))),
