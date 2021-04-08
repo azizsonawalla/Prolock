@@ -14,7 +14,6 @@ dictIsEmpty(empty). % only true for empty
 
 
 % True if the dictionary has the key `Key`
-% TODO: implement this (1 hour) - Charles
 hasKey(Key, dict(K,V,D)) :- hasKey(Key, D).
 hasKey(Key, dict(Key,_,_)) :- true.
 
