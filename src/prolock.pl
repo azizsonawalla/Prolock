@@ -13,36 +13,37 @@ userExists :- vaultExists.
 
 % New user workflow
 % No user exists already.
-% TODO: implement this (1 hour)
+% TODO: test this - Aziz
 newUserWorkflow :- 
-    not(userExists),
     showFirstTimeWelcome,
-    % TODO: ask for password to create new vault (cli:askForNewKey)
-    % TODO: create new vault (vault:newVault)
-    % TODO: flush the vault to disk (vault:flushVaultToDisk)
-    % TODO: perform vault actions (prolock:performVaultActions)
-    notImplemented.
+    askForNewKey(NewKey),
+    newVault(NewVault),
+    flushVaultToDisk(Vault, NewKey),
+    performVaultActions(Vault, NewKey).
+
 
 % Existing user/returning user workflow
 % A user must already exist
-% TODO: implement this (1 hour)
+% TODO: test this - Aziz
 existingUserWorkflow :- 
-    userExists, 
     showWelcomeBack,
-    % TODO: ask for password (cli:askForKey)
-    % TODO: use password to unlock vault (vault:openVault)
-    % TODO: perform vault actions (prolock:performVaultActions)
-    notImplemented.
+    askForKey(Key),
+    openVault(Vault, Key),
+    performVaultActions(Vault, Key).
 
 
 % Takes inputs from user and performs actions on the given vault
-% TODO: implement this (1 hour)
+% TODO: test this - Aziz
 performVaultActions(Vault, Key) :- 
-    % TODO: Get next command from user (cli:getNextCommand)
-    % TODO: If command was to exit, lock vault and exit. (cli:isExitCommand)
-    % TODO: Otherwise, perform command on given Vault and get new vault
-    % TODO: Recursively call performVaultActions(NewVault, Key)
-    notImplemented.
+    getNextCommand(Command),
+    perform(Command,Vault,Key,NewVault),
+    (
+        isExitCommand(Command);  % vault is already locked to just exit
+        (
+            not(isExitCommand(Command)),
+            performVaultActions(NewVault,Key)
+        )
+    ).
 
 
 % True when the user has added a username/password
@@ -71,4 +72,5 @@ perform(exit, Vault, Key, NewVault) :- notImplemented.
 
 % Entry-point for Prolock.
 % Either initiate newUserWorkflow or existingUserWorkflow
-main :- newUserWorkflow ; existingUserWorkflow.
+main :- userExists, existingUserWorkflow.
+main :- newUserWorkflow.
