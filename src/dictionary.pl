@@ -28,7 +28,7 @@ value(Key, Value, dict(Key,Value,D)) :- true.
 % TODO: implement this (1 hour) - Charles
 insert(Key, Value, empty,           dict(Key, Value, empty)) :- true.
 insert(Key, Value, dict(Key, V, D), dict(Key, Value, D)).
-insert(Key, Value, dict(K,   V, D), dict(K,   V,     D2)) :- insert(Key, Value, D, D2).
+insert(Key, Value, dict(K, V, D), dict(K, V, D2)) :- dif(Key, K), insert(Key, Value, D, D2).
 
 
 % True if `NewDict` is the dictionary `Dict` with `Key` removed
