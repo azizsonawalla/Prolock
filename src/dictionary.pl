@@ -14,7 +14,7 @@ dictIsEmpty(empty). % only true for empty
 
 
 % True if the dictionary has the key `Key`
-hasKey(Key, dict(K,V,D)) :- hasKey(Key, D).
+hasKey(Key, dict(K,V,D)) :- dif(Key, K), hasKey(Key, D).
 hasKey(Key, dict(Key,_,_)) :- true.
 
 
