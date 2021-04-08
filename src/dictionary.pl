@@ -19,13 +19,11 @@ hasKey(Key, dict(Key,_,_)).
 
 
 % True if `Value` is the value paired with `Key` in the dictionary
-% TODO: implement this (1 hour) - Charles
 value(Key, Value, dict(K,V,D)) :- dif(Key, K), value(Key, Value, D).
 value(Key, Value, dict(Key,Value,D)) :- true.
 
 
 % True if `NewDict` is the dictionary `Dict` with `Key` and `Value` added
-% TODO: implement this (1 hour) - Charles
 % If key already exists, replaces the value
 insert(Key, Value, empty, dict(Key, Value, empty)).
 insert(Key, Value, dict(Key, V, D), dict(Key, Value, D)).
@@ -34,7 +32,6 @@ insert(Key, Value, dict(K, V, D), dict(K, V, D2)) :- dif(Key, K), insert(Key, Va
 
 % True if `NewDict` is the dictionary `Dict` with `Key` removed
 % If Dict does not have `Key`, then NewDict = Dict
-% TODO: implement this (1 hour) - Charles
 remove(Key, dict(Key, V, D), D).
 remove(Key, dict(K, V, D), dict(K, V, D2)) :- dif(Key, K), remove(Key, D, D2).
 remove(Key, empty, empty).  
