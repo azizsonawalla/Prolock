@@ -34,7 +34,7 @@ insert(Key, Value, dict(K, V, D), dict(K, V, D2)) :- dif(Key, K), insert(Key, Va
 % True if `NewDict` is the dictionary `Dict` with `Key` removed
 % If Dict does not have `Key`, then NewDict = Dict
 % TODO: implement this (1 hour) - Charles
-remove(Key, dict(Key, V, D), D) :- true.
+remove(Key, dict(Key, V, D), D).
 remove(Key, dict(K, V, D), dict(K, V, D2)) :- remove(Key, D, D2).
 remove(Key, Dict, Dict) :- not(hasKey(Key, Dict)).  
 
