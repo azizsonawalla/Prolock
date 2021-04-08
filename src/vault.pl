@@ -50,7 +50,7 @@ isCorrectPassword(GivenKey) :-
 % `Vault` is a key-value dictionary (see dict.pl)
 % Assumes the password is correct (use isCorrectPassword first)
 % TODO: test when readData has been implemented - Aziz
-openVault(Key, Vault) :- 
+openVault(Vault, Key) :- 
     nonceFile(NonceFile),
     readData(Nonce, NonceFile),
     tagFile(TagFile),
@@ -64,7 +64,7 @@ openVault(Key, Vault) :-
 % True if `Vault` is encrypted and saved to disk using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
 % TODO: implement this (3 hour)
-lockVault(password(Key, Nonce, Tag), Vault) :- 
+lockVault(Key, Vault) :- 
     % TODO: build string from key-value dictionary `Vault`  (see dict.pl:dictToString)
     % TODO: encrypt string and store it in disk (see disk.pl)
     % TODO: hash the password(Key, Nonce, Tag) and store it to disk
@@ -74,7 +74,7 @@ lockVault(password(Key, Nonce, Tag), Vault) :-
 % True if the given Vault has been flushed to disk with the given Key
 % Nonce and Tag are generated
 % TODO: implement this
-flushVaultToDisk(Vault, password(Key,Nonce,Tag)) :- 
+flushVaultToDisk(Vault, Key) :- 
     % TODO: lock the vault with the password (vault:lockVault)
     % TODO: reopen vault (vault:openVault)
     notImplemented.
