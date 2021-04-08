@@ -27,7 +27,7 @@ value(Key, Value, dict(Key,Value,D)) :- true.
 % True if `NewDict` is the dictionary `Dict` with `Key` and `Value` added
 % TODO: implement this (1 hour) - Charles
 insert(Key, Value, empty,           dict(Key, Value, empty)) :- true.
-insert(Key, Value, dict(Key, V, D), dict(Key, Value, D)) :- true.
+insert(Key, Value, dict(Key, V, D), dict(Key, Value, D)).
 insert(Key, Value, dict(K,   V, D), dict(K,   V,     D2)) :- insert(Key, Value, D, D2).
 
 
