@@ -1,7 +1,12 @@
 :- module(prolock_crypto, [encrypt/5, decrypt/5, hash/2]).
 :- [src/errors].
 
-%% Cryptography related operations %%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Cryptography related predicates %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 % Encryption algorithm to use (uncomment just one!)
 algorithm("chacha20-poly1305").
