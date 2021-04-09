@@ -54,7 +54,7 @@ perform(add, Vault, Key, NewVault) :-
     % Ask for username
     % Ask for password
     % addToVault
-    notImplemented.
+    notImplemented("prolock -> perform").
 
 
 % True when the user has deleted a username/password
@@ -64,7 +64,7 @@ perform(del, Vault, Key, NewVault) :-
     % Ask for domain
     % Ask for username (if any)
     % Delete from vault
-    notImplemented.
+    notImplemented("prolock -> perform").
 
 
 % True when the user has looked-up a username/password
@@ -74,13 +74,13 @@ perform(lookup, Vault, Key, NewVault) :-
     % Ask for domain (* = all domains)
     % Ask for usernames (* = all usernames)
     % Show results
-    notImplemented.
+    notImplemented("prolock -> perform").
 
 
 % True when the exit action has been performed
 % NewVault is the updated Vault after the action has been done
 % TODO: implement this
-perform(exit, Vault, Key, NewVault) :- notImplemented.
+perform(exit, Vault, Key, NewVault) :- notImplemented("prolock -> perform").
 
 
 % Entry-point for Prolock.

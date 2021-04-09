@@ -68,7 +68,7 @@ lockVault(Key, Vault) :-
     % TODO: build string from key-value dictionary `Vault`  (see dict.pl:dictToString)
     % TODO: encrypt string and store it in disk (see disk.pl)
     % TODO: hash the password(Key, Nonce, Tag) and store it to disk
-    notImplemented.
+    notImplemented("vault -> lockVault").
 
 
 % True if the given Vault has been flushed to disk with the given Key
@@ -77,7 +77,7 @@ lockVault(Key, Vault) :-
 flushVaultToDisk(Vault, Key) :- 
     % TODO: lock the vault with the password (vault:lockVault)
     % TODO: reopen vault (vault:openVault)
-    notImplemented.
+    notImplemented("vault -> flushVaultToDisk").
 
 
 % Vault structure:
@@ -90,14 +90,14 @@ flushVaultToDisk(Vault, Key) :-
 
 % True if NewVault is Vault with the given record added
 % TODO: implement this
-addToVault(record(Domain,Username,Password),Vault,NewVault) :- notImplemented.
+addToVault(record(Domain,Username,Password),Vault,NewVault) :- notImplemented("vault -> addToVault").
 
 
 % True if NewVault is Vault with the given record removed
 % Domain must be bound. If Username is not bound, then all records for domain are removed.
 % If Username is bound, only the record for the given username is removed fromd domain.
 % TODO: implement this
-deleteFromVault(record(Domain,Username,_),Vault,NewVault) :- notImplemented.
+deleteFromVault(record(Domain,Username,_),Vault,NewVault) :- notImplemented("vault -> deleteFromVault").
 
 
 % True if Results is a dictionary of records in Vault that match given record
@@ -105,4 +105,4 @@ deleteFromVault(record(Domain,Username,_),Vault,NewVault) :- notImplemented.
 % If Domain is bound, but Username is not, then Results is all results for the domain
 % If Domain and Username is bound, then Results is the record for that username in the domain
 % TODO: implement this
-getFromVault(record(Domain,Username,_),Vault,Results) :- notImplemented.
+getFromVault(record(Domain,Username,_),Vault,Results) :- notImplemented("vault -> getFromVault").
