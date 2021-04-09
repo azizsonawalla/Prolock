@@ -80,6 +80,14 @@ flushVaultToDisk(Vault, Key) :-
     notImplemented.
 
 
+% Vault structure:
+%   <Domain1>: (eg. www.amazon.com)
+%       <Username1>:<Password1> (eg. admin:password123)
+%       <Username2>:<Password2>
+%   <Domain2>:
+%       <Username1>:<Password1>
+%       ...
+
 % True if NewVault is Vault with the given record added
 % TODO: implement this
 addToVault(record(Domain,Username,Password),Vault,NewVault) :- notImplemented.
