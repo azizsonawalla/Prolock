@@ -26,16 +26,17 @@ readData(Data, Filename) :-
     % TODO: test it works with special chars (encrypted text can contain all unicode chars). 
     %       Might need to write as bytes, and convert back on read.
     get_char(Out, Char1),
-    process_stream(Char1, Out, ''),
+    process_stream(Data, Char1, Out, ''),
     close(Out).
 
 
-process_stream(end_of_file, _, String) :- 
-    write(String), nl, !.
-process_stream(Char, Out, String) :-
+process_stream(Data, end_of_file, Out, String) :- 
+    % atomic_list_concat(String, Data).
+    Data = String.
+process_stream(Data, Char, Out, String) :-
     atom_concat(String, Char, X),
     get_char(Out, Char2),
-    process_stream(Char2, Out, X).
+    process_stream(Data, Char2, Out, X).
 
 
 % True if a file with the given name exists
