@@ -14,38 +14,40 @@ dictIsEmpty(empty). % only true for empty
 
 
 % True if the dictionary has the key `Key`
-<<<<<<< HEAD
-% TODO: implement this (1 hour) - Charles
-hasKey(Key, dict(K,V,D)) :- dif(Key,K), hasKey(Key, D).
-=======
-hasKey(Key, dict(K,V,D)) :- dif(Key, K), hasKey(Key, D).
->>>>>>> b09cdeeb98f87c9adac3b90d6e09844807a5273d
-hasKey(Key, dict(Key,_,_)).
+hasKey(Key, dict(K,_,D)) :- 
+    (Key == K -> true
+    ; hasKey(Key, D)
+    ).
 
 
 % True if `Value` is the value paired with `Key` in the dictionary
-<<<<<<< HEAD
-% TODO: implement this (1 hour) - Charles
-value(Key, Value, dict(K,V,D)) :- value(Key, Value, D).
-value(Key, Value, dict(Key,Value,D)).
-=======
-value(Key, Value, dict(K,V,D)) :- dif(Key, K), value(Key, Value, D).
-value(Key, Value, dict(Key,Value,D)) :- true.
->>>>>>> b09cdeeb98f87c9adac3b90d6e09844807a5273d
+% value(Key, Value, dict(K,V,D)) :- dif(Key, K), value(Key, Value, D).
+% value(Key, Value, dict(Key,Value,D)) :- true.
+value(Key, Value, dict(K,V,D)) :- 
+    (dif(Key, K) -> value(Key, Value, D)
+    ; Value == V
+    ).
 
 
 % True if `NewDict` is the dictionary `Dict` with `Key` and `Value` added
 % If key already exists, replaces the value
-insert(Key, Value, empty, dict(Key, Value, empty)).
-insert(Key, Value, dict(Key, V, D), dict(Key, Value, D)).
-insert(Key, Value, dict(K, V, D), dict(K, V, D2)) :- dif(Key, K), insert(Key, Value, D, D2).
+insert(Key, Value, D, Result) :-
+    (D == empty -> Result = dict(Key, Value, empty)  % insert into empty dictionary
+    ; (D = dict(K1, _, D1), K1 == Key -> Result = dict(Key, Value, D1) % if keys are same, replace value
+      ; D = dict(K2, V2, D2), insert(Key, Value, D2, InsertedD), Result = dict(K2, V2, InsertedD) % keys are different
+      ) 
+    ).
+
 
 
 % True if `NewDict` is the dictionary `Dict` with `Key` removed
 % If Dict does not have `Key`, then NewDict = Dict
-remove(Key, dict(Key, V, D), D).
-remove(Key, dict(K, V, D), dict(K, V, D2)) :- dif(Key, K), remove(Key, D, D2).
-remove(Key, empty, empty).  
+remove(Key, D, Result) :- 
+    (D == empty -> Result = empty
+    ; (D = dict(K1, _, D1), K1 == Key -> Result = D1 % if keys are same, remove the pair
+      ; D = dict(K2, V2, D2), remove(Key, D2, RemovedD) -> Result = dict(K2, V2, RemovedD) % keys are different
+      )
+    ).
 
 
 % True if the given variable is a dictionary
