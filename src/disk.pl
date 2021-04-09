@@ -7,22 +7,44 @@
 
 % Write the given string data to disk. Overwrites any other data in the file.
 % writeData(Data, Filename) is true if Data is written to the file called Filename
-% TODO: implement this (2 hour) - Matthew
 writeData(Data, Filename) :-
-    open(Filename, write, Out),
-    % TODO: write the string `Data` to file.
-    % TODO: test it works with special chars (encrypted text can contain all unicode chars). Might need to conver to bytes first.
-    close(Out).
+    nl,
+    writeln("Original Data:"),
+    writeln(Data),
+    open(Filename, write, Stream),
+    base64(Data,EncodedData),
+    writeln("Base64 Data:"),
+    writeln(EncodedData),
+    write(Stream, EncodedData),
+    close(Stream).
 
 
 % Read data from the given file
 % readData(Data, Filename) is true if Data is the string data read from the file called Filename
-% TODO: implement this (3 hour) - Matthew
 readData(Data, Filename) :-
-    open(Filename, read, Out),
-    % TODO: read data from file as string
-    % TODO: test it works with special chars (encrypted text can contain all unicode chars). Might need to write as bytes, and convert back on read.
-    close(Out).
+    open(Filename, read, Stream),
+    readWord(Stream,EncodedData),
+    writeln("Encoded Data:"),
+    writeln(EncodedData),
+    base64(DataAtom,EncodedData),
+    atom_string(DataAtom, Data),    
+    writeln("Data:"),
+    writeln(Data),
+    close(Stream).
+
+
+readWord(InStream,W) :-
+    get0(InStream,Char),
+    checkCharAndReadRest(Char,Chars,InStream),
+    atom_chars(W,Chars).
+
+checkCharAndReadRest(10,[],_) :- !.  % Return
+checkCharAndReadRest(32,[],_) :- !.  % Space
+checkCharAndReadRest(-1,[],_) :- !.  % End of Stream
+checkCharAndReadRest(end_of_file,[],_) :- !.
+checkCharAndReadRest(Char,[Char|Chars],InStream) :-
+    get0(InStream,NextChar),
+    checkCharAndReadRest(NextChar,Chars,InStream).
 
 
 % True if a file with the given name exists
