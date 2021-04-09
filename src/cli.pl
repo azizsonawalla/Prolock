@@ -44,18 +44,21 @@ sayBye :-
 % Should be able to read special chars!
 % TODO: test when readData has been implemented - Aziz
 askForKey(Key) :- 
-    writeln("Enter your vault password:"),
+    prompt(_, '> Vault password: '),
     readln(PasswordAttempt),
     (
         (
             isCorrectPassword(PasswordAttempt),
+            nl,
             writeln("Vault unlocked!"),
-            Key = PasswordAttempt
+            atomic_list_concat(PasswordAttempt, KeyAtom),
+            atom_string(KeyAtom, Key), !
         ),
         (
             not(isCorrectPassword(PasswordAttempt)),
+            nl,
             writeln("Invalid input - password is incorrect. Try again."),
-            askForKey(Key)
+            askForKey(Key), !
         )
     ).
 
