@@ -127,4 +127,4 @@ isExitCommand(exit).
 
 % True if the user was shown the given dictionary
 % TODO: Implement this
-prettyPrintDict(Dict) :- notImplemented.
+prettyPrintDict(Dict) :- notImplemented("prettyPrintDict").
