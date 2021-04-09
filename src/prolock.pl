@@ -98,18 +98,33 @@ perform(delDomain, Vault, Key, NewVault) :-
 
 % True when the user has looked-up a username/password
 % NewVault is the updated Vault after the action has been done
-% TODO: implement this
+% TODO: test this
 perform(lookup, Vault, Key, NewVault) :- 
-    % Ask for domain (* = all domains)
-    % Ask for usernames (* = all usernames)
-    % Show results
-    notImplemented("prolock -> perform").
+    writeln("Enter details for record to lookup..."),
+    getDomain(Domain),
+    Actions = [
+        command("1", "Show entire domain", lookupDomain),
+        command("2", "Look for record in domain", lookupCred),
+    ]
+    writeln("Select a search scope..."),
+    getChoice(Choice, Actions),
+    (
+        (
+            Choice = lookupCred,
+            getUsername(Username),
+        );
+        Choice = lookupDomain
+    )
+    getFromVault(record(Domain,Username,_), Vault,Results),
+    prettyPrintDict(Results).
 
 
 % True when the exit action has been performed
 % NewVault is the updated Vault after the action has been done
-% TODO: implement this
-perform(exit, Vault, Key, NewVault) :- notImplemented("prolock -> perform").
+% TODO: test this
+perform(exit, Vault, Key, NewVault) :- 
+    lockVault(Key, Vault),
+    sayBye.
 
 
 % Entry-point for Prolock.

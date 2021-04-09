@@ -67,7 +67,8 @@ openVault(Vault, Key) :-
 lockVault(Key, Vault) :- 
     % TODO: build string from key-value dictionary `Vault`  (see dict.pl:dictToString)
     % TODO: encrypt string and store it in disk (see disk.pl)
-    % TODO: hash the password(Key, Nonce, Tag) and store it to disk
+    % TODO: hash the Key and store it to disk
+    % TODO: store Nonce and Tag as plaintext
     notImplemented("vault -> lockVault").
 
 
