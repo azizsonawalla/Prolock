@@ -7,36 +7,26 @@
 
 % Write the given string data to disk. Overwrites any other data in the file.
 % writeData(Data, Filename) is true if Data is written to the file called Filename
-% TODO: implement this (2 hour) - Matthew
 writeData(Data, Filename) :-
-    open(Filename, write, Out),
-    % TODO: write the string `Data` to file.
-    % TODO: test it works with special chars (encrypted text can contain all unicode chars). 
-    %       Might need to conver to bytes first.
-    write(Out, Data), nl, 
-    close(Out).
+    open(Filename, write, Stream),
+    write(Stream, Data), 
+    close(Stream).
 
 
 % Read data from the given file
 % readData(Data, Filename) is true if Data is the string data read from the file called Filename
-% TODO: implement this (3 hour) - Matthew
 readData(Data, Filename) :-
-    open(Filename, read, Out),
-    % TODO: read data from file as string
-    % TODO: test it works with special chars (encrypted text can contain all unicode chars). 
-    %       Might need to write as bytes, and convert back on read.
-    get_char(Out, Char1),
-    process_stream(Data, Char1, Out, ''),
-    close(Out).
+    open(Filename, read, Stream),
+    get_char(Stream, Char1),
+    process_stream(Data, Char1, Stream, ''),
+    close(Stream).
 
 
-process_stream(Data, end_of_file, Out, String) :- 
-    % atomic_list_concat(String, Data).
-    Data = String.
-process_stream(Data, Char, Out, String) :-
+process_stream(Data, end_of_file, Stream, Data) :- !.
+process_stream(Data, Char, Stream, String) :-
     atom_concat(String, Char, X),
-    get_char(Out, Char2),
-    process_stream(Data, Char2, Out, X).
+    get_char(Stream, Char2),
+    process_stream(Data, Char2, Stream, X).
 
 
 % True if a file with the given name exists
