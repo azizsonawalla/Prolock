@@ -7,11 +7,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% Logo test
-logo("\n===================================\nPROLOCK ENCRYPTED VAULT\n===================================\n").
-
 % True if the user was shown the Prolock logo
-showLogo :- logo(LogoText), writeln(LogoText).
+showLogo :- 
+    write('\e[H\e[2J'), % clear screen
+    writeln("█████╗   ██████╗   ██████╗  ██╗       ██████╗   ██████╗ ██╗  ██╗"),
+    writeln("██╔══██╗ ██╔══██╗ ██╔═══██╗ ██║      ██╔═══██╗ ██╔════╝ ██║ ██╔╝"),
+    writeln("██████╔╝ ██████╔╝ ██║   ██║ ██║      ██║   ██║ ██║      █████╔╝ "),
+    writeln("██╔═══╝  ██╔══██╗ ██║   ██║ ██║      ██║   ██║ ██║      ██╔═██╗ "),
+    writeln("██║      ██║  ██║ ╚██████╔╝ ███████╗ ╚██████╔╝ ╚██████╗ ██║  ██╗"),
+    writeln("╚═╝      ╚═╝  ╚═╝  ╚═════╝  ╚══════╝  ╚═════╝   ╚═════╝ ╚═╝  ╚═╝"),
+    nl.
 
 
 % True if the user was shown the first-time welcome message
@@ -60,7 +65,7 @@ askForKey(Key) :-
 askForNewKey(Key) :- 
     writeln("Create password for new vault..."),
     nl,
-    writeln("Enter password:"),
+    writeln("New vault password:"),
     readln(FirstPasswordEntry),
     writeln("Re-enter password:"),
     readln(SecondPasswordEntry),
