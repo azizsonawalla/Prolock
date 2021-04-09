@@ -8,35 +8,61 @@
 
 % True if the user was shown the first-time welcome message
 showFirstTimeWelcome :- 
-    write('Welcome to Prolock'), nl.
+    writeln('Welcome to Prolock'), nl.
 
 
 % True if the user was shown the returning user welcome message
 showWelcomeBack :- 
-    write('Welcome back to Prolock'), nl.
+    writeln('Welcome back to Prolock'), nl.
 
 
 % True if the user was shown the goodbye message
-sayBye :- write('Thank you and goodbye.'), nl.
+sayBye :- writeln('Thank you and goodbye.'), nl.
 
 
 % True if Key is the verified password entered by the user for an existing Vault
 % Should be able to read special chars!
 askForKey(Key) :- 
-    write('Please loggin.'), nl,
+    writeln('Please loggin.'),
     prompt(_, 'Password: '),
     readln(Keys),
-    atomic_list_concat(Keys, Key).
+    atomic_list_concat(Keys, Attpmt),
+    (
+        (
+            isCorrectPassword(Key),
+            writeln('Vault unlocked!')
+        ),
+        (
+            not(isCorrectPassword(Key)),
+            writeln('Invalid input - password is incorrect. Try again.'),
+            askForKey(Key)
+        )
+    ).
+
 
 
 % True if Key is a new password created by the user
 % Should be able to read special chars!
 askForNewKey(Key) :- 
-    write('To get started please enter a new password.'), nl,
     write('You may use letter, numbers, and special characters but spaces will be removed.'), nl,
     prompt(_, 'Password: '),
     readln(Keys),
-    atomic_list_concat(Keys, Key).
+    atomic_list_concat(Keys, Key1),
+    prompt(_, 'Re-enter password: '),
+    readln(Keys),
+    atomic_list_concat(Keys, Key2),
+    (
+        (
+            Key1 = Key2,
+            writeln('New vault created.'),
+            Key = Key1
+        );
+        (
+            not(Key1 = Key2),
+            writeln('Passwords do not match. Please try again.'),
+            askForNewKey(Key)
+        )
+    ).
 
 
 % Supported commands where each command is command(Number,Description,atom)

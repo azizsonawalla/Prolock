@@ -13,32 +13,25 @@ userExists :- vaultExists.
 
 % New user workflow
 % No user exists already.
-% TODO: implement this (1 hour)
 newUserWorkflow :- 
+    % not(userExists),
     write('\e[H\e[2J'),
-    not(userExists),
     showFirstTimeWelcome,
+    write('To get started please enter a new password.'), nl,
     askForNewKey(Key),
-    %   write(Key), nl,
-    % TODO: create new vault (vault:newVault)
-    newVault(Vault),
-    % TODO: flush the vault to disk (vault:flushVaultToDisk)
-    %       flushVaultToDisk(Vault, password(Key,Nonce,Tag))
-    % TODO: perform vault actions (prolock:performVaultActions)
-    notImplemented.
+    newVault(NewVault),
+    flushVaultToDisk(Vault, Key),
+    performVaultActions(Vault, Key).
 
 % Existing user/returning user workflow
 % A user must already exist
-% TODO: implement this (1 hour)
 existingUserWorkflow :- 
+    % userExists, 
     write('\e[H\e[2J'),
-    userExists, 
     showWelcomeBack,
     askForKey(Key),
-    % TODO: use password to unlock vault (vault:openVault)
     openVault(Key, Vault),
-    % TODO: perform vault actions (prolock:performVaultActions)
-    notImplemented.
+    performVaultActions(Vault, Key).
 
 
 % Takes inputs from user and performs actions on the given vault
