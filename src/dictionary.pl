@@ -15,14 +15,14 @@ dictIsEmpty(empty). % only true for empty
 
 % True if the dictionary has the key `Key`
 % TODO: implement this (1 hour) - Charles
-hasKey(Key, dict(K,V,D)) :- hasKey(Key, D).
-hasKey(Key, dict(Key,_,_)) :- true.
+hasKey(Key, dict(K,V,D)) :- dif(Key,K), hasKey(Key, D).
+hasKey(Key, dict(Key,_,_)).
 
 
 % True if `Value` is the value paired with `Key` in the dictionary
 % TODO: implement this (1 hour) - Charles
 value(Key, Value, dict(K,V,D)) :- value(Key, Value, D).
-value(Key, Value, dict(Key,Value,D)) :- true.
+value(Key, Value, dict(Key,Value,D)).
 
 
 % True if `NewDict` is the dictionary `Dict` with `Key` and `Value` added
