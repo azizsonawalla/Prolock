@@ -7,19 +7,16 @@
 
 
 % True if the user was shown the first-time welcome message
-% TODO: Implement this
 showFirstTimeWelcome :- 
     write('Welcome to Prolock'), nl.
 
 
 % True if the user was shown the returning user welcome message
-% TODO: Implement this
 showWelcomeBack :- 
     write('Welcome back to Prolock'), nl.
 
 
 % True if the user was shown the goodbye message
-% TODO: Implement this
 sayBye :- write('Thank you and goodbye.'), nl.
 
 
@@ -34,7 +31,6 @@ askForKey(Key) :-
 
 % True if Key is a new password created by the user
 % Should be able to read special chars!
-% TODO: ask to confirm?
 askForNewKey(Key) :- 
     write('To get started please enter a new password.'), nl,
     write('You may use letter, numbers, and special characters but spaces will be removed.'), nl,
