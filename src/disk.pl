@@ -1,8 +1,20 @@
-:- module(prolock_disk, [writeData/2, readData/2, exists/1, delete/1]).
+:- module(prolock_disk).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Disk Related Operations %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Write a list of hex bytes
+writeHexBytes(Bytes, Filename) :-
+    hex_bytes(Data, Bytes),
+    writeData(Data, Filename).
+
+
+% Read a list of hex bytes
+readHexBytes(Bytes, Filename) :-
+    readData(Data, Filename),
+    hex_bytes(Data, Bytes).
 
 
 % Write the given string data to disk. Overwrites any other data in the file.

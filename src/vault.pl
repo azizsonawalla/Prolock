@@ -50,26 +50,40 @@ isCorrectPassword(GivenKey) :-
 % `Vault` is a key-value dictionary (see dict.pl)
 % Assumes the password is correct (use isCorrectPassword first)
 % TODO: test when readData has been implemented - Aziz
-openVault(Vault, Key) :- 
-    nonceFile(NonceFile),
-    readData(Nonce, NonceFile),
-    tagFile(TagFile),
-    readData(Tag, TagFile),
+openVault(Vault, Key, GivenNonce, GivenTag) :- 
+    % readNonceAndTag(Nonce,Tag),
+    decryptVault(Key,GivenNonce,GivenTag,StringVaultData).
+
+decryptVault(Key,Nonce,Tag,StringVaultData) :-
     vaultFile(VaultFile),
     readData(EncryptedVaultData, VaultFile),
     decrypt(StringVaultData, Key, Nonce, Tag, EncryptedVaultData),
     stringToDict(Vault, StringVaultData).
 
+readNonceAndTag(Nonce,Tag) :- 
+    nonceFile(NonceFile),
+    readHexBytes(Nonce, NonceFile),
+    tagFile(TagFile),
+    readHexBytes(Tag, TagFile).
+
 
 % True if `Vault` is encrypted and saved to disk using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
 % TODO: implement this (3 hour)
-lockVault(Key, Vault) :- 
-    % TODO: build string from key-value dictionary `Vault`  (see dict.pl:dictToString)
-    % TODO: encrypt string and store it in disk (see disk.pl)
-    % TODO: hash the Key and store it to disk
-    % TODO: store Nonce and Tag as plaintext
-    notImplemented("vault -> lockVault").
+lockVault(Key, Vault, Nonce, Tag) :- 
+    vaultFile(VaultFile),
+    keyHashFile(KeyFile),
+    nonceFile(NonceFile),
+    tagFile(TagFile),
+    dictToString(Vault, VaultString),
+    encrypt(VaultString, Key, Nonce, Tag, EncryptedVaultString),
+    % writeln(Tag),
+    % writeln(Nonce),
+    writeData(EncryptedVaultString, VaultFile),
+    hash(Key, KeyHash),
+    writeData(KeyHash,KeyFile),
+    writeHexBytes(Nonce, NonceFile),
+    writeHexBytes(Tag, TagFile).
 
 
 % True if the given Vault has been flushed to disk with the given Key

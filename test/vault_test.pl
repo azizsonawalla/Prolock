@@ -1,5 +1,6 @@
 :- begin_tests(vault).
 :- [src/vault].
+:- [src/dictionary].
 :- [src/disk].
 
 % To run the tests:
@@ -27,6 +28,15 @@ test(isCorrectPassword) :-
     isCorrectPassword("thisIs!ASample12334Password"),                        % this is the correct key
     not(isCorrectPassword("wrong key")),                                     % this is the wrong key
     deleteMockVault.
+
+
+test(openVault_lockVault) :- 
+    Password = "this is a password123 !",
+    newVault(Vault),
+    insert("Key1", "Value2", Vault, UpdatedVault),
+    lockVault(Password, UpdatedVault, Nonce, Tag),
+    openVault(ReopenedVault, Password, Nonce, Tag),
+    ReopenedVault = UpdatedVault.
 
 
 % Helper predicate that creates dummy vault files
