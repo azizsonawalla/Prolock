@@ -85,5 +85,7 @@ perform(exit, Vault, Key, NewVault) :- notImplemented.
 
 % Entry-point for Prolock.
 % Either initiate newUserWorkflow or existingUserWorkflow
-main :- userExists, existingUserWorkflow.
-main :- newUserWorkflow.
+prolock :- userExists, existingUserWorkflow.
+prolock :- newUserWorkflow.
+
+:- initialization(prolock, main).
