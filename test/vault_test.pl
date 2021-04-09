@@ -17,7 +17,6 @@ test(vaultExists) :-
     not(vaultExists). % mock vault should not exist
 
 
-% Will not pass until disk:readData is implemented
 test(isCorrectPassword) :-
     createMockVault(
         "mock vault data", 
