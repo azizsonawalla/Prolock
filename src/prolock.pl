@@ -15,11 +15,15 @@ userExists :- vaultExists.
 % No user exists already.
 % TODO: implement this (1 hour)
 newUserWorkflow :- 
+    write('\e[H\e[2J'),
     not(userExists),
     showFirstTimeWelcome,
-    % TODO: ask for password to create new vault (cli:askForNewKey)
+    askForNewKey(Key),
+    %   write(Key), nl,
     % TODO: create new vault (vault:newVault)
+    newVault(Vault),
     % TODO: flush the vault to disk (vault:flushVaultToDisk)
+    %       flushVaultToDisk(Vault, password(Key,Nonce,Tag))
     % TODO: perform vault actions (prolock:performVaultActions)
     notImplemented.
 
@@ -27,10 +31,12 @@ newUserWorkflow :-
 % A user must already exist
 % TODO: implement this (1 hour)
 existingUserWorkflow :- 
+    write('\e[H\e[2J'),
     userExists, 
     showWelcomeBack,
-    % TODO: ask for password (cli:askForKey)
+    askForKey(Key),
     % TODO: use password to unlock vault (vault:openVault)
+    openVault(Key, Vault),
     % TODO: perform vault actions (prolock:performVaultActions)
     notImplemented.
 
@@ -39,6 +45,7 @@ existingUserWorkflow :-
 % TODO: implement this (1 hour)
 performVaultActions(Vault, Key) :- 
     % TODO: Get next command from user (cli:getNextCommand)
+    getNextCommand(NextCommand),
     % TODO: If command was to exit, lock vault and exit. (cli:isExitCommand)
     % TODO: Otherwise, perform command on given Vault and get new vault
     % TODO: Recursively call performVaultActions(NewVault, Key)
