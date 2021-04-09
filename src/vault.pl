@@ -11,19 +11,19 @@
 
 
 % The filename for storing encrypted vault data
-vaultFile("vault.dat").
+vaultFile("vault.txt").
 
 
 % The filename for storing hashed key
-keyHashFile("keyHash.dat").
+keyHashFile("keyHash.txt").
 
 
 % The filename for storing the Nonce
-nonceFile("nonce.dat").
+nonceFile("nonce.txt").
 
 
 % The filename for storing the Tag
-tagFile("tag.dat").
+tagFile("tag.txt").
 
 
 % True if Vault is a fresh vault
