@@ -166,5 +166,22 @@ isExitCommand(exit).
 
 % True if the user was shown the given dictionary
 % TODO: Implement this
-prettyPrintDict(empty) :- writeln("<Nothing to show>").
-prettyPrintDict(Dict) :- notImplemented("cli -> prettyPrintDict").
+prettyPrintDict(empty) :- writeln("<Nothing to show>"), !.
+prettyPrintDict(Dict) :- dif(Dict, empty), prettyStringDict(Dict, "|", String), writeln(String).
+
+
+prettyStringDict(empty, _, "") :- !.
+prettyStringDict(dict(Key,Value, Rest), Indent, String) :-
+    prettyStringDict(Rest, Indent, RestString),
+    (
+        (
+            string(Value),
+            ValueString = Value, !
+        );
+        (
+            isDict(Value),
+            concat(Indent, "--", NextLevelIndent),
+            prettyStringDict(Value, NextLevelIndent, ValueString), !
+        )
+    ),
+    concatList(["\n", Indent, Key, ": ", ValueString, RestString, "\n"], String).
