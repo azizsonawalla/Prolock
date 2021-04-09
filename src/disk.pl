@@ -1,6 +1,9 @@
 :- module(prolock_disk, [writeData/2, readData/2, exists/1, delete/1]).
 
-%% Disk Related Operations %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Disk Related Operations %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % Write the given string data to disk. Overwrites any other data in the file.
 % writeData(Data, Filename) is true if Data is written to the file called Filename
