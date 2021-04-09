@@ -14,21 +14,17 @@ userExists :- vaultExists.
 % New user workflow
 % No user exists already.
 newUserWorkflow :- 
-    % not(userExists),
-    write('\e[H\e[2J'),
     showFirstTimeWelcome,
-    write('To get started please enter a new password.'), nl,
     askForNewKey(Key),
     newVault(NewVault),
-    flushVaultToDisk(Vault, Key),
-    performVaultActions(Vault, Key).
+    writeln('New vault created.'), % Move to newVault function
+    flushVaultToDisk(NewVault, Key),
+    performVaultActions(NewVault, Key).
 
 % Existing user/returning user workflow
 % A user must already exist
 existingUserWorkflow :- 
-    % userExists, 
-    write('\e[H\e[2J'),
-    showWelcomeBack,
+    % showWelcomeBack,
     askForKey(Key),
     openVault(Key, Vault),
     performVaultActions(Vault, Key).
@@ -69,6 +65,23 @@ perform(lookup, Vault, Key, NewVault) :- notImplemented.
 perform(exit, Vault, Key, NewVault) :- notImplemented.
 
 
+printLogo :-
+    write('\e[H\e[2J'), % clear screen
+    writeln("█████╗   ██████╗   ██████╗  ██╗       ██████╗   ██████╗ ██╗  ██╗"),
+    writeln("██╔══██╗ ██╔══██╗ ██╔═══██╗ ██║      ██╔═══██╗ ██╔════╝ ██║ ██╔╝"),
+    writeln("██████╔╝ ██████╔╝ ██║   ██║ ██║      ██║   ██║ ██║      █████╔╝ "),
+    writeln("██╔═══╝  ██╔══██╗ ██║   ██║ ██║      ██║   ██║ ██║      ██╔═██╗ "),
+    writeln("██║      ██║  ██║ ╚██████╔╝ ███████╗ ╚██████╔╝ ╚██████╗ ██║  ██╗"),
+    writeln("╚═╝      ╚═╝  ╚═╝  ╚═════╝  ╚══════╝  ╚═════╝   ╚═════╝ ╚═╝  ╚═╝"),
+    nl.
+
 % Entry-point for Prolock.
 % Either initiate newUserWorkflow or existingUserWorkflow
-main :- newUserWorkflow ; existingUserWorkflow.
+% main :- newUserWorkflow ; existingUserWorkflow.
+main :- 
+    userExists,
+    printLogo,
+    existingUserWorkflow.
+main :- 
+    printLogo,
+    newUserWorkflow.

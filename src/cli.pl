@@ -8,7 +8,8 @@
 
 % True if the user was shown the first-time welcome message
 showFirstTimeWelcome :- 
-    writeln('Welcome to Prolock'), nl.
+    write('To get started please enter a new password.'), nl,
+    write('You may use letter, numbers, and special characters but spaces will be removed.'), nl.
 
 
 % True if the user was shown the returning user welcome message
@@ -40,21 +41,18 @@ askForKey(Key) :-
     ).
 
 
-
 % True if Key is a new password created by the user
 % Should be able to read special chars!
 askForNewKey(Key) :- 
-    write('You may use letter, numbers, and special characters but spaces will be removed.'), nl,
     prompt(_, 'Password: '),
-    readln(Keys),
-    atomic_list_concat(Keys, Key1),
+    readln(Keys1),
+    atomic_list_concat(Keys1, Key1),
     prompt(_, 'Re-enter password: '),
-    readln(Keys),
-    atomic_list_concat(Keys, Key2),
+    readln(Keys2),
+    atomic_list_concat(Keys2, Key2),
     (
         (
             Key1 = Key2,
-            writeln('New vault created.'),
             Key = Key1
         );
         (
