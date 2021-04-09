@@ -22,7 +22,7 @@ readData(Data, Filename) :-
     close(Stream).
 
 
-process_stream(Data, end_of_file, Stream, Data) :- !.
+process_stream(Data, end_of_file, _, Data) :- !.
 process_stream(Data, Char, Stream, String) :-
     atom_concat(String, Char, X),
     get_char(Stream, Char2),
