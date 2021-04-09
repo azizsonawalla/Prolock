@@ -4,6 +4,42 @@
 % To run the tests:
 % ?- run_tests.
 
+test(hasKey) :- 
+    not(hasKey("Bar", empty)),
+    not(hasKey("Bar", dict("Foo", "Buz buzz", empty))),
+    hasKey("Bar", dict("Bar", "Buz buzz", dict("Baz", "Boo", empty))),
+    hasKey("Baz", dict("Bar", "Buz buzz", dict("Baz", "Boo", empty))),
+    not(hasKey("Boo", dict("Bar", "Buz buzz", dict("Baz", "Boo", empty)))),
+    not(hasKey("Boo", dict("Bar", "Buz buzz", dict("Baz", dict("Boo", "Fizz", empty), empty)))),
+    hasKey("Boo", dict("Bar", "Buz buzz", dict("Boo", "Laa", dict("Baz", "Buzz", empty)))).
+
+test(value) :-
+    not(value("Bar", "Buzz", empty)),
+    not(value("Bar", "Buzz", dict("Foo", "Buz buzz", empty))),
+    not(value("Bar", "Buzz", dict("Foo", "Buz buzz", dict("Bar", "Not Buzz", dict("Zoo", "Foo", empty))))),
+    not(value("Boo", "Fizz", dict("Bar", "Buz buzz", dict("Baz", dict("Boo", "Fizz", empty), empty)))),
+    value("Bar", "Buz buzz", dict("Bar", "Buz buzz", dict("Baz", "Boo", empty))),
+    value("Baz", "Boo", dict("Bar", "Buz buzz", dict("Baz", "Boo", empty))),
+    value("Bar", "Buzz", dict("Foo", "Buz buzz", dict("Bar", "Buzz", dict("Zoo", "Foo", empty)))).
+
+test(insert) :-
+    not(insert("Bar", "Foo", empty, empty)),
+    insert("Bar", "Foo", empty, dict("Bar", "Foo", empty)),
+    insert("Bar", "Foo", dict("Laa", "Baa", empty), dict("Laa", "Baa", dict("Bar", "Foo", empty))),
+    insert("Bar", "Foo", dict("Bar", "Baa", dict("Laa", "Baa", empty)), dict("Bar", "Foo", dict("Laa", "Baa", empty))).
+
+test(remove) :-
+    remove("Bar", empty, empty),
+    remove("Bar", dict("Fizz", "Buzz", empty), dict("Fizz", "Buzz", empty)),
+    remove("Bar", dict("Fizz", dict("Buzz", "Lightning", empty), empty), dict("Fizz", dict("Buzz", "Lightning", empty), empty)),
+    remove("Bar", 
+        dict("Baz", "Laa", dict("Bam", "Boo", dict("Bar", "Haha", dict("Laa", "Zaa", empty)))),
+        dict("Baz", "Laa", dict("Bam", "Boo", dict("Laa", "Zaa", empty)))
+    ),
+    remove("Baz", 
+        dict("Baz", "Laa", dict("Bam", "Boo", dict("Bar", "Haha", dict("Laa", "Zaa", empty)))),
+        dict("Bam", "Boo", dict("Bar", "Haha", dict("Laa", "Zaa", empty)))
+    ).
 
 test(dictToString) :-
     dictToString(empty, "empty"),
