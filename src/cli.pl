@@ -156,7 +156,8 @@ getInput(Prompt,Reply) :-
 % True if String is the concatenation of all strings in List
 concatList(List,String) :-
     reverse(List, Reverse),
-    foldl(concat, Reverse, "", String).    
+    foldl(concat, Reverse, "", StringOrAtom),
+    atom_string(StringOrAtom, String).    
 
 
 % True if the given command is the exit command
