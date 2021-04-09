@@ -1,41 +1,54 @@
 :- module(cli).
 :- [src/errors].
+:- [src/vault].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicates for CLI interactions with user %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+% Logo test
+logo("\n===================================\nPROLOCK ENCRYPTED VAULT\n===================================\n").
+
+% True if the user was shown the Prolock logo
+showLogo :- logo(LogoText), writeln(LogoText).
+
+
 % True if the user was shown the first-time welcome message
 showFirstTimeWelcome :- 
-    write('To get started please enter a new password.'), nl,
-    write('You may use letter, numbers, and special characters but spaces will be removed.'), nl.
+    showLogo,
+    writeln("Welcome new user!"),
+    nl.
 
 
 % True if the user was shown the returning user welcome message
 showWelcomeBack :- 
-    writeln('Welcome back to Prolock'), nl.
+    showLogo,
+    writeln("Welcome back!"),
+    nl.
 
 
 % True if the user was shown the goodbye message
-sayBye :- writeln('Thank you and goodbye.'), nl.
+sayBye :- 
+    writeln("Vault has been locked."),
+    writeln("Goodbye!"). 
 
 
 % True if Key is the verified password entered by the user for an existing Vault
 % Should be able to read special chars!
+% TODO: test when readData has been implemented - Aziz
 askForKey(Key) :- 
-    writeln('Please loggin.'),
-    prompt(_, 'Password: '),
-    readln(Keys),
-    atomic_list_concat(Keys, Attpmt),
+    writeln("Enter your vault password:"),
+    readln(PasswordAttempt),
     (
         (
-            isCorrectPassword(Key),
-            writeln('Vault unlocked!')
+            isCorrectPassword(PasswordAttempt),
+            writeln("Vault unlocked!"),
+            Key = PasswordAttempt
         ),
         (
-            not(isCorrectPassword(Key)),
-            writeln('Invalid input - password is incorrect. Try again.'),
+            not(isCorrectPassword(PasswordAttempt)),
+            writeln("Invalid input - password is incorrect. Try again."),
             askForKey(Key)
         )
     ).
@@ -43,21 +56,23 @@ askForKey(Key) :-
 
 % True if Key is a new password created by the user
 % Should be able to read special chars!
+% TODO: test when readData has been implemented - Aziz
 askForNewKey(Key) :- 
-    prompt(_, 'Password: '),
-    readln(Keys1),
-    atomic_list_concat(Keys1, Key1),
-    prompt(_, 'Re-enter password: '),
-    readln(Keys2),
-    atomic_list_concat(Keys2, Key2),
+    writeln("Create password for new vault..."),
+    nl,
+    writeln("Enter password:"),
+    readln(FirstPasswordEntry),
+    writeln("Re-enter password:"),
+    readln(SecondPasswordEntry),
     (
         (
-            Key1 = Key2,
-            Key = Key1
+            FirstPasswordEntry = SecondPasswordEntry, 
+            writeln("New vault created."),
+            Key = SecondPasswordEntry
         );
         (
-            not(Key1 = Key2),
-            writeln('Passwords do not match. Please try again.'),
+            not(FirstPasswordEntry = SecondPasswordEntry),
+            writeln("Invalid input - Passwords do not match. Try again."),
             askForNewKey(Key)
         )
     ).
@@ -80,7 +95,7 @@ prettyPrint(command(Number, Description, _)) :-
 
 
 % True if NextCommand is the next command from the user
-% TODO: Implement this
+% TODO: test this - Aziz
 getNextCommand(NextCommand) :- 
     nl,
     writeln("What would you like to do? (Enter the corresponding number)"),
@@ -90,9 +105,15 @@ getNextCommand(NextCommand) :-
         member(Command,CommandList),
         prettyPrint(Command)
     ),
-    % TODO: get number input
-    % TODO: lookup atom for corresponding command
-    notImplemented.
+    readln([CommandNumberAtom|Rest]),
+    term_string(CommandNumberAtom, CommandNumber),    
+    writeln(CommandNumber),
+    % TODO: validate input
+    findall(
+        Atom,
+        member(command(CommandNumber,_,Atom),CommandList),
+        [NextCommand|Rest]
+    ).
 
 
 % True if the given command is the exit command
@@ -101,4 +122,4 @@ isExitCommand(exit).
 
 % True if the user was shown the given dictionary
 % TODO: Implement this
-showDictionary(Dict) :- notImplemented.
+prettyPrintDict(Dict) :- notImplemented.

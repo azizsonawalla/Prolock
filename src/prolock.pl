@@ -13,50 +13,68 @@ userExists :- vaultExists.
 
 % New user workflow
 % No user exists already.
+% TODO: test this - Aziz
 newUserWorkflow :- 
     showFirstTimeWelcome,
-    askForNewKey(Key),
+    askForNewKey(NewKey),
     newVault(NewVault),
-    writeln('New vault created.'), % Move to newVault function
-    flushVaultToDisk(NewVault, Key),
-    performVaultActions(NewVault, Key).
+    flushVaultToDisk(Vault, NewKey),
+    performVaultActions(Vault, NewKey).
+
 
 % Existing user/returning user workflow
 % A user must already exist
+% TODO: test this - Aziz
 existingUserWorkflow :- 
-    % showWelcomeBack,
+    showWelcomeBack,
     askForKey(Key),
-    openVault(Key, Vault),
+    openVault(Vault, Key),
     performVaultActions(Vault, Key).
 
 
 % Takes inputs from user and performs actions on the given vault
-% TODO: implement this (1 hour)
+% TODO: test this - Aziz
 performVaultActions(Vault, Key) :- 
-    % TODO: Get next command from user (cli:getNextCommand)
-    getNextCommand(NextCommand),
-    % TODO: If command was to exit, lock vault and exit. (cli:isExitCommand)
-    % TODO: Otherwise, perform command on given Vault and get new vault
-    % TODO: Recursively call performVaultActions(NewVault, Key)
-    notImplemented.
+    getNextCommand(Command),
+    perform(Command,Vault,Key,NewVault),
+    (
+        isExitCommand(Command);  % vault is already locked to just exit
+        (
+            not(isExitCommand(Command)),
+            performVaultActions(NewVault,Key)
+        )
+    ).
 
 
 % True when the user has added a username/password
 % NewVault is the updated Vault after the action has been done
 % TODO: implement this
-perform(add, Vault, Key, NewVault) :- notImplemented.
+perform(add, Vault, Key, NewVault) :- 
+    % Ask for domain
+    % Ask for username
+    % Ask for password
+    % addToVault
+    notImplemented.
 
 
 % True when the user has deleted a username/password
 % NewVault is the updated Vault after the action has been done
 % TODO: implement this
-perform(del, Vault, Key, NewVault) :- notImplemented.
+perform(del, Vault, Key, NewVault) :- 
+    % Ask for domain
+    % Ask for username (if any)
+    % Delete from vault
+    notImplemented.
 
 
 % True when the user has looked-up a username/password
 % NewVault is the updated Vault after the action has been done
 % TODO: implement this
-perform(lookup, Vault, Key, NewVault) :- notImplemented.
+perform(lookup, Vault, Key, NewVault) :- 
+    % Ask for domain (* = all domains)
+    % Ask for usernames (* = all usernames)
+    % Show results
+    notImplemented.
 
 
 % True when the exit action has been performed
@@ -65,23 +83,7 @@ perform(lookup, Vault, Key, NewVault) :- notImplemented.
 perform(exit, Vault, Key, NewVault) :- notImplemented.
 
 
-printLogo :-
-    write('\e[H\e[2J'), % clear screen
-    writeln("█████╗   ██████╗   ██████╗  ██╗       ██████╗   ██████╗ ██╗  ██╗"),
-    writeln("██╔══██╗ ██╔══██╗ ██╔═══██╗ ██║      ██╔═══██╗ ██╔════╝ ██║ ██╔╝"),
-    writeln("██████╔╝ ██████╔╝ ██║   ██║ ██║      ██║   ██║ ██║      █████╔╝ "),
-    writeln("██╔═══╝  ██╔══██╗ ██║   ██║ ██║      ██║   ██║ ██║      ██╔═██╗ "),
-    writeln("██║      ██║  ██║ ╚██████╔╝ ███████╗ ╚██████╔╝ ╚██████╗ ██║  ██╗"),
-    writeln("╚═╝      ╚═╝  ╚═╝  ╚═════╝  ╚══════╝  ╚═════╝   ╚═════╝ ╚═╝  ╚═╝"),
-    nl.
-
 % Entry-point for Prolock.
 % Either initiate newUserWorkflow or existingUserWorkflow
-% main :- newUserWorkflow ; existingUserWorkflow.
-main :- 
-    userExists,
-    printLogo,
-    existingUserWorkflow.
-main :- 
-    printLogo,
-    newUserWorkflow.
+main :- userExists, existingUserWorkflow.
+main :- newUserWorkflow.
