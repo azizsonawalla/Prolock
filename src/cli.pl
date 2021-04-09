@@ -44,15 +44,13 @@ sayBye :-
 % Should be able to read special chars!
 % TODO: test when readData has been implemented - Aziz
 askForKey(Key) :- 
-    prompt(_, '> Vault password: '),
-    readln(PasswordAttempt),
+    getPromptReply("Vault password", PasswordAttempt),
     (
         (
             isCorrectPassword(PasswordAttempt),
             nl,
             writeln("Vault unlocked!"),
-            atomic_list_concat(PasswordAttempt, KeyAtom),
-            atom_string(KeyAtom, Key), !
+            Key = PasswordAttempt, !
         ),
         (
             not(isCorrectPassword(PasswordAttempt)),
@@ -71,16 +69,13 @@ askForNewKey(Key) :-
     writeln("Set new password for vault."),
     writeln("You may use letters, numbers, and ~!@#$^&*."),
     nl,
-    prompt(_, '> New vault password: '),
-    readln(FirstPasswordEntry),
-    prompt(_, '> Re-enter password: '),
-    readln(SecondPasswordEntry),
+    getPromptReply("New vault password", FirstPasswordEntry),
+    getPromptReply("Re-enter password", SecondPasswordEntry),
     (
         (
             FirstPasswordEntry = SecondPasswordEntry, 
             writeln("New vault created."),
-            atomic_list_concat(SecondPasswordEntry, KeyAtom),
-            atom_string(KeyAtom, Key), !                        
+            Key = SecondPasswordEntry, !                        
         );
         (
             not(FirstPasswordEntry = SecondPasswordEntry),
@@ -101,8 +96,7 @@ commands([
 
 % Pretty-prints the given command
 prettyPrint(command(Number, Description, _)) :- 
-    reverse(["\t", Number, ": ", Description, "."], Reversed),
-    foldl(concat,Reversed, "", String),
+    concatList(["\t", Number, ": ", Description, "."], String),
     writeln(String).
 
 
@@ -128,6 +122,20 @@ getNextCommand(NextCommand) :-
         member(command(CommandNumber,_,Atom),CommandList),
         [NextCommand|Rest]
     ).
+
+
+getPromptReply(Prompt,Reply) :-
+    concatList(["> ", Prompt, ": "], FormattedPrompt),
+    prompt(_, FormattedPrompt),
+    readln(ReplyAtomsList),
+    atomic_list_concat(ReplyAtomsList, ReplyAtom),
+    atom_string(ReplyAtom, Reply).
+
+
+% True if String is the concatenation of all strings in List
+concatList(List,String) :-
+    reverse(List, Reverse),
+    foldl(concat, Reverse, "", String).    
 
 
 % True if the given command is the exit command

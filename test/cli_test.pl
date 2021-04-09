@@ -1,24 +1,12 @@
-:- begin_tests(disk).
-:- [src/disk].
-:- [src/crypto].
+:- begin_tests(cli).
+:- [src/cli].
 
 % To run the tests:
 % ?- run_tests.
 
 
-test(write_read) :-
-    hash("this is some message", Hash),
-    Filename = "test/resources/test.txt",
-    writeData(Hash, Filename),
-    readData(HashFromDisk, Filename),
-    HashFromDisk = Hash,
-    delete(Filename).
+% TODO
 
-
-test(exists) :- 
-    exists('test/resources/sample_file'), % returns true for an existing file
-    not(exists('test/resources/does_not_exist')). % returns false for non-existing file
-
-:- end_tests(disk).
+:- end_tests(cli).
 
 :- initialization(run_tests, main).
