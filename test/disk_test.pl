@@ -20,3 +20,5 @@ test(exists) :-
     not(exists('test/resources/does_not_exist')). % returns false for non-existing file
 
 :- end_tests(disk).
+
+:- initialization(run_tests, main).

@@ -17,3 +17,5 @@ test(encrypt_write_read_decrypt) :-
     Decrypted = OriginalData.                                 % check that the decrypted version is the same as the original
 
 :- end_tests(integration).
+
+:- initialization(run_tests, main).

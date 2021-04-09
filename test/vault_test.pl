@@ -46,3 +46,5 @@ deleteMockVault :-
     tagFile(TagFile), delete(TagFile).
 
 :- end_tests(vault).
+
+:- initialization(run_tests, main).
