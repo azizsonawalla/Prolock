@@ -23,6 +23,7 @@ showLogo :-
 showFirstTimeWelcome :- 
     showLogo,
     writeln("Welcome new user!"),
+    writeln("Create a new vault to get started."),
     nl.
 
 
@@ -36,7 +37,7 @@ showWelcomeBack :-
 % True if the user was shown the goodbye message
 sayBye :- 
     writeln("Vault has been locked."),
-    writeln("Goodbye!"). 
+    writeln("Thank you and goodbye!"). 
 
 
 % True if Key is the verified password entered by the user for an existing Vault
@@ -63,22 +64,25 @@ askForKey(Key) :-
 % Should be able to read special chars!
 % TODO: test when readData has been implemented - Aziz
 askForNewKey(Key) :- 
-    writeln("Create password for new vault..."),
     nl,
-    writeln("New vault password:"),
+    writeln("Set new password for vault."),
+    writeln("You may use letters, numbers, and ~!@#$^&*."),
+    nl,
+    prompt(_, '> New vault password: '),
     readln(FirstPasswordEntry),
-    writeln("Re-enter password:"),
+    prompt(_, '> Re-enter password: '),
     readln(SecondPasswordEntry),
     (
         (
             FirstPasswordEntry = SecondPasswordEntry, 
             writeln("New vault created."),
-            Key = SecondPasswordEntry
+            atomic_list_concat(SecondPasswordEntry, KeyAtom),
+            atom_string(KeyAtom, Key), !                        
         );
         (
             not(FirstPasswordEntry = SecondPasswordEntry),
             writeln("Invalid input - Passwords do not match. Try again."),
-            askForNewKey(Key)
+            askForNewKey(Key), !
         )
     ).
 
