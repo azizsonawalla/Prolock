@@ -110,13 +110,15 @@ prettyPrint(command(Number, Description, _)) :-
 % TODO: test this - Aziz
 getNextCommand(NextCommand) :- 
     nl,
-    writeln("What would you like to do? (Enter the corresponding number)"),
+    writeln("What would you like to do?"),
     nl,
     commands(CommandList),
     forall(
         member(Command,CommandList),
         prettyPrint(Command)
     ),
+    nl,
+    prompt(_, '> Enter number: '),
     readln([CommandNumberAtom|Rest]),
     term_string(CommandNumberAtom, CommandNumber),    
     writeln(CommandNumber),
