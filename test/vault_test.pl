@@ -1,5 +1,6 @@
 :- begin_tests(vault).
 :- [src/vault].
+:- [src/dictionary].
 :- [src/disk].
 
 % To run the tests:
@@ -17,7 +18,6 @@ test(vaultExists) :-
     not(vaultExists). % mock vault should not exist
 
 
-% Will not pass until disk:readData is implemented
 test(isCorrectPassword) :-
     createMockVault(
         "mock vault data", 
@@ -405,6 +405,15 @@ test(testAllAddRemoveGet) :-
     
 
 
+test(openVault_lockVault) :- 
+    Password = "this is a password123 !",
+    newVault(Vault),
+    insert("Key1", "Value2", Vault, UpdatedVault),
+    lockVault(Password, UpdatedVault),
+    openVault(ReopenedVault, Password),
+    ReopenedVault = UpdatedVault.
+
+
 % Helper predicate that creates dummy vault files
 createMockVault(VaultData, KeyHash, Nonce, Tag) :-
     vaultFile(VaultFile), writeData(VaultData, VaultFile),
@@ -431,3 +440,5 @@ createMockVaultDict(Vault) :-
     ))).
 
 :- end_tests(vault).
+
+:- initialization(run_tests, main).
