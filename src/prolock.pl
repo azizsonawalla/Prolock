@@ -66,8 +66,8 @@ perform(add, Vault, Key, NewVault) :-
 perform(del, Vault, Key, NewVault) :- 
     Actions = [
         command("1", "Delete a credential from a domain", delCred),
-        command("2", "Delete an entire domain", delDomain),
-    ]
+        command("2", "Delete an entire domain", delDomain)
+    ],
     writeln("What would you like to delete?"),
     getChoice(Choice, Actions),
     perform(Choice, Vault, Key, NewVault).
@@ -104,17 +104,17 @@ perform(lookup, Vault, Key, NewVault) :-
     getDomain(Domain),
     Actions = [
         command("1", "Show entire domain", lookupDomain),
-        command("2", "Look for record in domain", lookupCred),
-    ]
+        command("2", "Look for record in domain", lookupCred)
+    ],
     writeln("Select a search scope..."),
     getChoice(Choice, Actions),
     (
         (
             Choice = lookupCred,
-            getUsername(Username),
+            getUsername(Username)
         );
-        Choice = lookupDomain
-    )
+        (Choice = lookupDomain)
+    ),
     getFromVault(record(Domain,Username,_), Vault,Results),
     prettyPrintDict(Results).
 

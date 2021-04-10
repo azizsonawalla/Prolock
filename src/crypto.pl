@@ -9,8 +9,8 @@
 
 
 % Encryption algorithm to use (uncomment just one!)
-algorithm("chacha20-poly1305").
-% algorithm("aes-128-gcm").
+% algorithm("chacha20-poly1305").
+algorithm("aes-128-gcm").
 % algorithm("aes-128-cbc").
 
 

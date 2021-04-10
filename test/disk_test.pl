@@ -15,6 +15,15 @@ test(write_read) :-
     delete(Filename).
 
 
+test(write_read_hex_bytes) :-
+    Bytes = [46, 227, 167, 94, 25, 11, 85, 47, 90, 10, 189, 155, 115, 125, 87, 161],
+    Filename = "test.txt",
+    writeHexBytes(Bytes, Filename),
+    readHexBytes(BytesFromDisk, Filename),
+    BytesFromDisk = Bytes,
+    delete(Filename).
+
+
 test(exists) :- 
     exists('test/resources/sample_file'), % returns true for an existing file
     not(exists('test/resources/does_not_exist')). % returns false for non-existing file

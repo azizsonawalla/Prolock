@@ -4,8 +4,9 @@
 % To run the tests:
 % ?- run_tests.
 
-
-% TODO
+test(concatList) :-
+    concatList(["hello"], "hello"),
+    concatList(["foo!", "bar$", "bizz&"], "foo!bar$bizz&").
 
 :- end_tests(cli).
 

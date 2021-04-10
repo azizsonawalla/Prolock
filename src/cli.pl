@@ -147,7 +147,8 @@ getPassword(Password) :-
 % Sets the given prompt and retrieves the reply as a string
 getInput(Prompt,Reply) :-
     concatList(["> ", Prompt, ": "], FormattedPrompt),
-    prompt(_, FormattedPrompt),
+    atom_string(FromattedPromptAtom, FormattedPrompt),    
+    prompt(_, FromattedPromptAtom),
     readln(ReplyAtomsList),
     atomic_list_concat(ReplyAtomsList, ReplyAtom),
     atom_string(ReplyAtom, Reply).
@@ -156,7 +157,8 @@ getInput(Prompt,Reply) :-
 % True if String is the concatenation of all strings in List
 concatList(List,String) :-
     reverse(List, Reverse),
-    foldl(concat, Reverse, "", String).    
+    foldl(concat, Reverse, "", StringOrAtom),
+    atom_string(StringOrAtom, String).    
 
 
 % True if the given command is the exit command
@@ -165,5 +167,22 @@ isExitCommand(exit).
 
 % True if the user was shown the given dictionary
 % TODO: Implement this
-prettyPrintDict(empty) :- writeln("<Nothing to show>").
-prettyPrintDict(Dict) :- notImplemented("cli -> prettyPrintDict").
+prettyPrintDict(empty) :- writeln("<Nothing to show>"), !.
+prettyPrintDict(Dict) :- dif(Dict, empty), prettyStringDict(Dict, "|", String), writeln(String).
+
+
+prettyStringDict(empty, _, "") :- !.
+prettyStringDict(dict(Key,Value, Rest), Indent, String) :-
+    prettyStringDict(Rest, Indent, RestString),
+    (
+        (
+            string(Value),
+            ValueString = Value, !
+        );
+        (
+            isDict(Value),
+            concat(Indent, "--", NextLevelIndent),
+            prettyStringDict(Value, NextLevelIndent, ValueString), !
+        )
+    ),
+    concatList(["\n", Indent, Key, ": ", ValueString, RestString, "\n"], String).
