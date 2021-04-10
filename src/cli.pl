@@ -147,7 +147,8 @@ getPassword(Password) :-
 % Sets the given prompt and retrieves the reply as a string
 getInput(Prompt,Reply) :-
     concatList(["> ", Prompt, ": "], FormattedPrompt),
-    prompt(_, FormattedPrompt),
+    atom_string(FromattedPromptAtom, FormattedPrompt),    
+    prompt(_, FromattedPromptAtom),
     readln(ReplyAtomsList),
     atomic_list_concat(ReplyAtomsList, ReplyAtom),
     atom_string(ReplyAtom, Reply).
