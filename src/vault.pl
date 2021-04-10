@@ -93,11 +93,8 @@ writeNonceAndTag(Nonce,Tag) :-
 
 % True if the given Vault has been flushed to disk with the given Key
 % Nonce and Tag are generated
-% TODO: implement this
 flushVaultToDisk(Vault, Key) :- 
-    % TODO: lock the vault with the password (vault:lockVault)
-    % TODO: reopen vault (vault:openVault)
-    notImplemented("vault -> flushVaultToDisk").
+    lockVault(Key,Vault).
 
 
 % Vault structure:

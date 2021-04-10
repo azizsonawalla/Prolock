@@ -16,10 +16,10 @@ userExists :- vaultExists.
 % TODO: test this - Aziz
 newUserWorkflow :- 
     showFirstTimeWelcome,
-    askForNewKey(NewKey),
-    newVault(NewVault),
-    flushVaultToDisk(Vault, NewKey),
-    performVaultActions(Vault, NewKey).
+    askForNewKey(Key),
+    newVault(Vault),
+    flushVaultToDisk(Vault, Key),
+    performVaultActions(Vault, Key).
 
 
 % Existing user/returning user workflow
@@ -130,6 +130,6 @@ perform(exit, Vault, Key, NewVault) :-
 % Entry-point for Prolock.
 % Either initiate newUserWorkflow or existingUserWorkflow
 prolock :- userExists, existingUserWorkflow.
-prolock :- newUserWorkflow.
+prolock :- not(userExists), newUserWorkflow.
 
 :- initialization(prolock, main).
