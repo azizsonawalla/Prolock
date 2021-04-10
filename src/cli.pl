@@ -51,7 +51,7 @@ askForKey(Key) :-
             nl,
             writeln("Vault unlocked!"),
             Key = PasswordAttempt, !
-        ),
+        );
         (
             not(isCorrectPassword(PasswordAttempt)),
             nl,
