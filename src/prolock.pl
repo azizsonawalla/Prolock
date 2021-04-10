@@ -18,7 +18,7 @@ newUserWorkflow :-
     showFirstTimeWelcome,
     askForNewKey(Key),
     newVault(Vault),
-    flushVaultToDisk(Vault, Key),
+    % flushVaultToDisk(Vault, Key),  % TODO: causes decryption bug when enabled
     performVaultActions(Vault, Key).
 
 
