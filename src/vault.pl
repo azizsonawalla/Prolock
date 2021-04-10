@@ -49,12 +49,11 @@ isCorrectPassword(GivenKey) :-
 % `Vault` is the vault from disk, decrypted using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
 % Assumes the password is correct (use isCorrectPassword first)
-% TODO: test when readData has been implemented - Aziz
-openVault(Vault, Key, GivenNonce, GivenTag) :- 
-    % readNonceAndTag(Nonce,Tag),
-    decryptVault(Key,GivenNonce,GivenTag,StringVaultData).
+openVault(Vault, Key) :- 
+    readNonceAndTag(Nonce,Tag),
+    readVault(Key,Nonce,Tag,Vault).
 
-decryptVault(Key,Nonce,Tag,StringVaultData) :-
+readVault(Key,Nonce,Tag,Vault) :-
     vaultFile(VaultFile),
     readData(EncryptedVaultData, VaultFile),
     decrypt(StringVaultData, Key, Nonce, Tag, EncryptedVaultData),
@@ -69,20 +68,26 @@ readNonceAndTag(Nonce,Tag) :-
 
 % True if `Vault` is encrypted and saved to disk using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
-% TODO: implement this (3 hour)
-lockVault(Key, Vault, Nonce, Tag) :- 
+lockVault(Key, Vault) :- 
+    writeVault(Key,Vault, Nonce, Tag),
+    writeKey(Key),
+    writeNonceAndTag(Nonce,Tag).
+
+writeVault(Key, Vault, Nonce, Tag) :-
     vaultFile(VaultFile),
-    keyHashFile(KeyFile),
-    nonceFile(NonceFile),
-    tagFile(TagFile),
     dictToString(Vault, VaultString),
     encrypt(VaultString, Key, Nonce, Tag, EncryptedVaultString),
-    % writeln(Tag),
-    % writeln(Nonce),
-    writeData(EncryptedVaultString, VaultFile),
+    writeData(EncryptedVaultString, VaultFile).
+
+writeKey(Key) :-
+    keyHashFile(KeyFile),
     hash(Key, KeyHash),
-    writeData(KeyHash,KeyFile),
+    writeData(KeyHash,KeyFile).
+
+writeNonceAndTag(Nonce,Tag) :- 
+    nonceFile(NonceFile),
     writeHexBytes(Nonce, NonceFile),
+    tagFile(TagFile),
     writeHexBytes(Tag, TagFile).
 
 

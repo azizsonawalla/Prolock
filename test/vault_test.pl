@@ -34,8 +34,8 @@ test(openVault_lockVault) :-
     Password = "this is a password123 !",
     newVault(Vault),
     insert("Key1", "Value2", Vault, UpdatedVault),
-    lockVault(Password, UpdatedVault, Nonce, Tag),
-    openVault(ReopenedVault, Password, Nonce, Tag),
+    lockVault(Password, UpdatedVault),
+    openVault(ReopenedVault, Password),
     ReopenedVault = UpdatedVault.
 
 
