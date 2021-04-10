@@ -18,7 +18,7 @@ newUserWorkflow :-
     showFirstTimeWelcome,
     askForNewKey(Key),
     newVault(Vault),
-    flushVaultToDisk(Vault, Key),
+    % flushVaultToDisk(Vault, Key),
     performVaultActions(Vault, Key).
 
 
