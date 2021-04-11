@@ -99,7 +99,7 @@ perform(delDomain, Vault, Key, NewVault) :-
 % True when the user has looked-up a username/password
 % NewVault is the updated Vault after the action has been done
 % TODO: test this
-perform(lookup, Vault, Key, NewVault) :- 
+perform(lookup, Vault, Key, Vault) :- 
     writeln("Enter details for record to lookup..."),
     getDomain(Domain),
     Actions = [
@@ -111,9 +111,9 @@ perform(lookup, Vault, Key, NewVault) :-
     (
         (
             Choice = lookupCred,
-            getUsername(Username)
+            getUsername(Username), !
         );
-        (Choice = lookupDomain)
+        (Choice = lookupDomain), !
     ),
     getFromVault(record(Domain,Username,_), Vault,Results),
     prettyPrintDict(Results).
