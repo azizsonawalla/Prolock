@@ -75,3 +75,5 @@ test(dict_string_dict) :-
 
 
 :- end_tests(dictionary).
+
+:- initialization(run_tests, main).

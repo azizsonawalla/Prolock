@@ -49,36 +49,61 @@ isCorrectPassword(GivenKey) :-
 % `Vault` is the vault from disk, decrypted using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
 % Assumes the password is correct (use isCorrectPassword first)
-% TODO: test when readData has been implemented - Aziz
 openVault(Vault, Key) :- 
-    nonceFile(NonceFile),
-    readData(Nonce, NonceFile),
-    tagFile(TagFile),
-    readData(Tag, TagFile),
+    readNonceAndTag(Nonce,Tag),
+    readVault(Key,Nonce,Tag,Vault).
+
+readVault(Key,Nonce,Tag,Vault) :-
     vaultFile(VaultFile),
     readData(EncryptedVaultData, VaultFile),
     decrypt(StringVaultData, Key, Nonce, Tag, EncryptedVaultData),
     stringToDict(Vault, StringVaultData).
 
+readNonceAndTag(Nonce,Tag) :- 
+    nonceFile(NonceFile),
+    readHexBytes(Nonce, NonceFile),
+    tagFile(TagFile),
+    readHexBytes(Tag, TagFile).
+
 
 % True if `Vault` is encrypted and saved to disk using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
-% TODO: implement this (3 hour)
 lockVault(Key, Vault) :- 
-    % TODO: build string from key-value dictionary `Vault`  (see dict.pl:dictToString)
-    % TODO: encrypt string and store it in disk (see disk.pl)
-    % TODO: hash the password(Key, Nonce, Tag) and store it to disk
-    notImplemented.
+    writeVault(Key,Vault, Nonce, Tag),
+    writeKey(Key),
+    writeNonceAndTag(Nonce,Tag).
+
+writeVault(Key, Vault, Nonce, Tag) :-
+    vaultFile(VaultFile),
+    dictToString(Vault, VaultString),
+    encrypt(VaultString, Key, Nonce, Tag, EncryptedVaultString),
+    writeData(EncryptedVaultString, VaultFile).
+
+writeKey(Key) :-
+    keyHashFile(KeyFile),
+    hash(Key, KeyHash),
+    writeData(KeyHash,KeyFile).
+
+writeNonceAndTag(Nonce,Tag) :- 
+    nonceFile(NonceFile),
+    writeHexBytes(Nonce, NonceFile),
+    tagFile(TagFile),
+    writeHexBytes(Tag, TagFile).
 
 
 % True if the given Vault has been flushed to disk with the given Key
 % Nonce and Tag are generated
-% TODO: implement this
 flushVaultToDisk(Vault, Key) :- 
-    % TODO: lock the vault with the password (vault:lockVault)
-    % TODO: reopen vault (vault:openVault)
-    notImplemented.
+    lockVault(Key,Vault).
 
+
+% Vault structure:
+%   <Domain1>: (eg. www.amazon.com)
+%       <Username1>:<Password1> (eg. admin:password123)
+%       <Username2>:<Password2>
+%   <Domain2>:
+%       <Username1>:<Password1>
+%       ...
 
 % Vault structure:
 %   <Domain1>: (eg. www.amazon.com)

@@ -21,3 +21,5 @@ test(hash) :-
 
 
 :- end_tests(crypto).
+
+:- initialization(run_tests, main).

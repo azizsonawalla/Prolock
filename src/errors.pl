@@ -1,7 +1,7 @@
-:- module(prolockErrors, [notImplemented/0]).
+:- module(prolockErrors, [notImplemented/1]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 % Prolock related errors %
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-notImplemented :- writeln("Not implemented"), fail.
+notImplemented(Location) :- write("Not yet implemented function in: "), write(Location), nl, fail.
