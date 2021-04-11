@@ -167,7 +167,7 @@ isExitCommand(exit).
 % True if the user was shown the given dictionary
 % TODO: Implement this
 prettyPrintDict(empty) :- writeln("<Nothing to show>"), !.
-prettyPrintDict(Dict) :- dif(Dict, empty), prettyStringDict(Dict, "|", String), writeln(String).
+prettyPrintDict(Dict) :- dif(Dict, empty), prettyStringDict(Dict, "|", String), writeln(String), !.
 
 
 prettyStringDict(empty, _, "") :- !.

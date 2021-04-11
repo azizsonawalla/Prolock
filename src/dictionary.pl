@@ -29,7 +29,7 @@ hasKey(Key, dict(K,_,D)) :-
 % value(Key, Value, dict(Key,Value,D)) :- true.
 value(Key, Value, dict(K,V,D)) :- 
     (dif(Key, K) -> value(Key, Value, D)
-    ; Value == V
+    ; Value = V
     ).
 
 

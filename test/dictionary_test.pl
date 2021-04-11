@@ -49,7 +49,8 @@ test(remove) :-
     remove("Baz", 
         dict("Baz", dict("A", "B", empty), dict("Bam", "Boo", dict("Bar", "Haha", dict("Laa", "Zaa", empty)))),
         dict("Bam", "Boo", dict("Bar", "Haha", dict("Laa", "Zaa", empty)))
-    ).
+    ),
+    remove("Bar", dict("Bar", "Foo", empty), empty).
 
 test(dictToString) :-
     dictToString(empty, "empty"),
