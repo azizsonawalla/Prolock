@@ -105,25 +105,24 @@ prettyPrint(command(Number, Description, _)) :-
 getNextVaultAction(VaultAction) :- 
     nl,
     writeln("What would you like to do?"),
-    nl,
     vaultActions(VaultActions),
     getChoice(VaultAction, VaultActions).
 
 
 % Gets user's command choice from the given list
 getChoice(Selected, Choices) :-
-    forall(
-        member(Command,Choices),
-        prettyPrint(Command)
-    ),
-    nl,
-    getInput("Enter number", CommandNumber),
-    % TODO: validate input
-    findall(
-        Atom,
-        member(command(CommandNumber,_,Atom),Choices),
-        [Selected|Rest]
-    ).
+    repeat,
+        nl,
+        forall(
+            member(Command,Choices),
+            prettyPrint(Command)
+        ),
+        nl,
+        getInput("Enter number", CommandNumber),
+    (
+        member(command(CommandNumber,_,Selected),Choices);
+        (writeln("Invalid input - please choose one of the options"), fail)
+    ), !.
 
 
 % Gets a valid domain name from user
