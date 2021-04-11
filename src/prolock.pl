@@ -36,7 +36,7 @@ existingUserWorkflow :-
 % TODO: test this - Aziz
 performVaultActions(Vault, Key, ValueFromPrevCmd) :- 
     showLogo,
-    % printOutputFromCommand(ValueFromPrevCmd),
+    printOutputFromCommand(ValueFromPrevCmd),
     getNextVaultAction(Command),
     perform(Command,Vault,Key,NewVault, Output),
     (
