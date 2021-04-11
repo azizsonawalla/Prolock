@@ -120,7 +120,8 @@ getChoice(Selected, Choices) :-
         nl,
         getInput("Enter number", CommandNumber),
     (
-        member(command(CommandNumber,_,Selected),Choices)
+        member(command(CommandNumber,_,Selected),Choices);
+        (writeln("Invalid input - please choose one of the options"), fail)
     ), !.
 
 
