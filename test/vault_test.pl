@@ -314,7 +314,6 @@ test(getFromVault_all_bound_valid) :-
     Results = record("www.difpeople.com", "lily", "l123u").
 
 test(getFromVault_all_bound_invalid) :-
-    writeln("getFromVault_all_bound_invalid"),
     Vault = dict(
     "www.google.com", dict("charles", "c123g", dict("zack", "z123g", dict("amy", "a123g", empty))),
     dict(
@@ -323,8 +322,7 @@ test(getFromVault_all_bound_invalid) :-
     "www.difpeople.com",  dict("amy", "a123u", dict("lily", "l123u", dict("bob", "b123u", empty))), empty
     ))),
     getFromVault(record("www.invaild.com", "invalidName", "invalidPas"), Vault, Results),
-    % Results = empty.
-    writeln(Results).
+    Results = empty.
 
 test(getFromVault_all_bound_valid2) :- 
     Vault = dict(
@@ -359,7 +357,7 @@ test(getFromVault_username_unbound_valid) :-
     "www.difpeople.com",  dict("amy", "a123u", dict("lily", "l123u", dict("bob", "b123u", empty))), empty
     ))),
     getFromVault(record("www.difpeople.com", _, "anything"), Vault, Results),
-    Results = dict("amy", "a123u", dict("lily", "l123u", dict("bob", "b123u", empty))).
+    Results = dict("www.difpeople.com",  dict("amy", "a123u", dict("lily", "l123u", dict("bob", "b123u", empty))), empty)).
 
 test(getFromVault_username_unbound_invalid) :-
     Vault = dict(
@@ -395,13 +393,13 @@ test(testAllAddRemoveGet) :-
     Vault5 = Vault6,
     getFromVault(record(_, _, _), Vault5, Vault5),
     getFromVault(record("www.google.com", _, "abc"), Vault5, Result1),
-    Result1 = dict("charles", "c123g", dict("amy", "a123g", dict("gonzales", "g123g", empty))).
+    Result1 = dict("www.google.com", dict("charles", "c123g", dict("amy", "a123g", dict("gonzales", "g123g", empty)), empty),
     getFromVault(record("www.google.com", "charles", _), Vault5, record("www.google.com", "charles", "c123g")),
     getFromVault(record("invalid", _, _), Vault5, empty).
     getFromVault(record("www.google.com", "invalid", _), empty),
     getFromVault(record("www.samepass.com", _, _), Vault5, empty),
     getFromVault(record("www.newdomain.com", _, _), Vault5, Result2),
-    Result2 = dict("charles", "n123c", dict("larry", "n123l", empty)).
+    Result2 = dict("www.newdomain.com", dict("charles", "n123c", dict("larry", "n123l", empty)), empty).
     
 
 

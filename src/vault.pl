@@ -149,7 +149,7 @@ getFromVault(record(Domain,Username,_), Vault, Results) :-
         ;
             (not(nonvar(Username)) ->
                 (value(Domain, Records, Vault) -> 
-                    Results = Records
+                    Results = dict(Domain, Records, empty)
                 ;
                     Results = empty
                 );
