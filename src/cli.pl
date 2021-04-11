@@ -36,6 +36,7 @@ showWelcomeBack :-
 
 % True if the user was shown the goodbye message
 sayBye :- 
+    nl,
     writeln("Vault has been locked."),
     writeln("Thank you and goodbye!"). 
 
@@ -166,22 +167,32 @@ isExitCommand(exit).
 
 % True if the user was shown the given dictionary
 % TODO: Implement this
-prettyPrintDict(empty) :- writeln("<Nothing to show>"), !.
-prettyPrintDict(Dict) :- dif(Dict, empty), prettyStringDict(Dict, "|", String), writeln(String), !.
+% prettyStringResults(empty, "<Nothing to show>") :- !.
+% prettyStringResults(Dict, String) :- dif(Dict, empty), prettyStringDict(Dict, "|", String), !.
 
 
-prettyStringDict(empty, _, "") :- !.
-prettyStringDict(dict(Key,Value, Rest), Indent, String) :-
-    prettyStringDict(Rest, Indent, RestString),
-    (
-        (
-            string(Value),
-            ValueString = Value, !
-        );
-        (
-            isDict(Value),
-            concat(Indent, "--", NextLevelIndent),
-            prettyStringDict(Value, NextLevelIndent, ValueString), !
-        )
-    ),
-    concatList(["\n", Indent, Key, ": ", ValueString, RestString, "\n"], String).
+% prettyStringDict(empty, _, "") :- !.
+% prettyStringDict(dict(Key,Value, Rest), Indent, String) :-
+%     prettyStringDict(Rest, Indent, RestString),
+%     (
+%         (
+%             string(Value),
+%             ValueString = Value, !
+%         );
+%         (
+%             isDict(Value),
+%             concat(Indent, "--", NextLevelIndent),
+%             prettyStringDict(Value, NextLevelIndent, ValueString), !
+%         )
+%     ),
+%     concatList(["\n", Indent, Key, ": ", ValueString, RestString, "\n"], String).
+
+
+% printOutputFromCommand("") :- !.
+% printOutputFromCommand(Output) :-
+%     concatList([
+%         "\n==============================================\n\n",
+%         Output,
+%         "\n\n==============================================\n"
+%     ], FormattedOutput),
+%     writeln(FormattedOutput).
