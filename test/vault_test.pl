@@ -147,7 +147,7 @@ test(deleteFromVaultEmpty1) :-
 % empty case uesrname NOT bounded
 test(deleteFromVaultEmpty1_unbound) :- 
     Vault = empty,
-    deleteFromVault(record("www.newdomain.com", Variable, "c123n"), Vault, NewVault),
+    deleteFromVault(record("www.newdomain.com", _, "c123n"), Vault, NewVault),
     NewVault = empty.
 
 % simple case uesrname bounded
@@ -158,13 +158,13 @@ test(deleteFromVault1) :-
 % simple case uesrname NOT bounded
 test(deleteFromVault1_unbound) :- 
     Vault = dict("www.newdomain.com", dict("charles", "c123n", dict("amy", "n123a",empty)), empty),
-    deleteFromVault(record("www.newdomain.com", Variable, "c123n"), Vault, NewVault),
+    deleteFromVault(record("www.newdomain.com", _, "c123n"), Vault, NewVault),
     NewVault = empty.
 
 % delete and insert
 test(deleteFromVaultAndAdd) :- 
     Vault = dict("www.newdomain.com", dict("charles", "c123n", empty), empty),
-    deleteFromVault(record("www.newdomain.com", Variable, "c123n"), Vault, NewVault),
+    deleteFromVault(record("www.newdomain.com", _, "c123n"), Vault, NewVault),
     addToVault(record("www.reddit.com", "amy", "r123a"), NewVault, NewNewVault),
     NewNewVault = dict("www.reddit.com", dict("amy", "r123a", empty), empty).
 
@@ -230,7 +230,7 @@ test(deleteFromVault5) :-
     dict(
     "www.difpeople.com",  dict("amy", "a123u", dict("lily", "l123u", dict("bob", "b123u", empty))), empty
     )),
-    deleteFromVault(record("www.google.com", Variable, "a123g"), Vault, NewVault).
+    deleteFromVault(record("www.google.com", _, "a123g"), Vault, NewVault).
 
 % delete from an existing domain name, uesrname NOT bounded, password not bounded. Delete all records for that domain
 test(deleteFromVault6) :- 
@@ -280,7 +280,7 @@ test(deleteFromVault8) :-
     dict(
     "www.difpeople.com",  dict("amy", "a123u", dict("lily", "l123u", dict("bob", "b123u", empty))), empty
     ))),
-    deleteFromVault(record("www.doesnotexist.com", Variable, "123"), Vault, NewVault).
+    deleteFromVault(record("www.doesnotexist.com", _, "123"), Vault, NewVault).
 
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -357,7 +357,7 @@ test(getFromVault_username_unbound_valid) :-
     "www.difpeople.com",  dict("amy", "a123u", dict("lily", "l123u", dict("bob", "b123u", empty))), empty
     ))),
     getFromVault(record("www.difpeople.com", _, "anything"), Vault, Results),
-    Results = dict("www.difpeople.com",  dict("amy", "a123u", dict("lily", "l123u", dict("bob", "b123u", empty))), empty)).
+    Results = dict("www.difpeople.com",  dict("amy", "a123u", dict("lily", "l123u", dict("bob", "b123u", empty))), empty).
 
 test(getFromVault_username_unbound_invalid) :-
     Vault = dict(
