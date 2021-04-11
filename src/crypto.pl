@@ -1,5 +1,6 @@
-:- module(prolock_crypto, [encrypt/5, decrypt/5, hash/2]).
+:- module(prolock_crypto).
 :- [src/errors].
+:- [src/util].
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -27,6 +28,17 @@ encrypt(Input, Key, Nonce, Tag, Encrypted) :-
 decrypt(Decrypted, Key, Nonce, Tag, Encrypted) :-
     algorithm(Algorithm),
     crypto_data_decrypt(Encrypted, Algorithm, Key, Nonce, Decrypted, [tag(Tag)]).
+
+
+encryptFile(InputFilename, Key, EncryptedFilename) :-
+    concatList(["openssl enc -aes256 -e -iter 1000 -salt -in ", InputFilename, " -out ", EncryptedFilename, " -pass pass:\"", Key, "\""], Cmd),
+    % writeln(Cmd),
+    shell(Cmd).
+
+decryptFile(InputFilename, Key, EncryptedFilename) :-
+    concatList(["openssl enc -aes256 -d -iter 1000 -in ", EncryptedFilename, " -out ", InputFilename, " -pass pass:\"", Key, "\""], Cmd),
+    % writeln(Cmd),
+    shell(Cmd).
 
 
 % True if `Hash` is the hashed string `Input` using SHA-256

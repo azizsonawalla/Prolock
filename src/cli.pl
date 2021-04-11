@@ -1,6 +1,7 @@
 :- module(cli).
 :- [src/errors].
 :- [src/vault].
+:- [src/util].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicates for CLI interactions with user %
@@ -36,6 +37,7 @@ showWelcomeBack :-
 
 % True if the user was shown the goodbye message
 sayBye :- 
+    nl,
     writeln("Vault has been locked."),
     writeln("Thank you and goodbye!"). 
 
@@ -150,14 +152,7 @@ getInput(Prompt,Reply) :-
     prompt(_, FromattedPromptAtom),
     readln(ReplyAtomsList),
     atomic_list_concat(ReplyAtomsList, ReplyAtom),
-    atom_string(ReplyAtom, Reply).
-
-
-% True if String is the concatenation of all strings in List
-concatList(List,String) :-
-    reverse(List, Reverse),
-    foldl(concat, Reverse, "", StringOrAtom),
-    atom_string(StringOrAtom, String).    
+    atom_string(ReplyAtom, Reply). 
 
 
 % True if the given command is the exit command
@@ -166,8 +161,8 @@ isExitCommand(exit).
 
 % True if the user was shown the given dictionary
 % TODO: Implement this
-prettyPrintDict(empty) :- writeln("<Nothing to show>"), !.
-prettyPrintDict(Dict) :- dif(Dict, empty), prettyStringDict(Dict, "|", String), writeln(String), !.
+prettyStringResults(empty, "<Nothing to show>") :- !.
+prettyStringResults(Dict, String) :- dif(Dict, empty), prettyStringDict(Dict, "|", String), !.
 
 
 prettyStringDict(empty, _, "") :- !.
@@ -184,4 +179,14 @@ prettyStringDict(dict(Key,Value, Rest), Indent, String) :-
             prettyStringDict(Value, NextLevelIndent, ValueString), !
         )
     ),
-    concatList(["\n", Indent, Key, ": ", ValueString, RestString, "\n"], String).
+    concatList(["\n", Indent, Key, ": ", ValueString, RestString], String).
+
+
+printOutputFromCommand("") :- !.
+printOutputFromCommand(Output) :-
+    concatList([
+        "\n==============================================\n\n",
+        Output,
+        "\n\n==============================================\n"
+    ], FormattedOutput),
+    writeln(FormattedOutput).

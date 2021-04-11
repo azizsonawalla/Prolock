@@ -410,17 +410,13 @@ test(openVault_lockVault) :-
 % Helper predicate that creates dummy vault files
 createMockVault(VaultData, KeyHash, Nonce, Tag) :-
     vaultFile(VaultFile), writeData(VaultData, VaultFile),
-    keyHashFile(KeyFile), writeData(KeyHash, KeyFile),
-    nonceFile(NonceFile), writeData(Nonce, NonceFile),
-    tagFile(TagFile), writeData(Tag, TagFile).
+    keyHashFile(KeyFile), writeData(KeyHash, KeyFile).
 
 
 % Helper predicate that deletes the dummy vault files
 deleteMockVault :-
     vaultFile(VaultFile), delete(VaultFile),
-    keyHashFile(KeyFile), delete(KeyFile),
-    nonceFile(NonceFile), delete(NonceFile),
-    tagFile(TagFile), delete(TagFile).
+    keyHashFile(KeyFile), delete(KeyFile).
 
 % Helper predicate that creates a vault dictionary
 createMockVaultDict(Vault) :-

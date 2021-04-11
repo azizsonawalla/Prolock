@@ -11,19 +11,12 @@
 
 
 % The filename for storing encrypted vault data
-vaultFile("vault.txt").
+vaultFile("vault").
+vaultEncryptedFile("vault.enc").
 
 
 % The filename for storing hashed key
 keyHashFile("keyHash.txt").
-
-
-% The filename for storing the Nonce
-nonceFile("nonce.txt").
-
-
-% The filename for storing the Tag
-tagFile("tag.txt").
 
 
 % True if Vault is a fresh vault
@@ -32,10 +25,8 @@ newVault(Vault) :- Vault = empty.
 
 % True if there is vault data saved to disk (i.e. a vault exists on disk)
 vaultExists :-
-    vaultFile(VaultFile), exists(VaultFile),  % vault data file exists
-    keyHashFile(KeyFile), exists(KeyFile),    % key hash file exists
-    nonceFile(NonceFile), exists(NonceFile),  % nonce file exists
-    tagFile(TagFile), exists(TagFile).        % tag file exists
+    vaultEncryptedFile(VaultEncryptedFile), exists(VaultEncryptedFile),  % vault data file exists
+    keyHashFile(KeyFile), exists(KeyFile).                               % key hash file exists
 
 
 % True if the given values are the correct key for the vault
@@ -50,45 +41,35 @@ isCorrectPassword(GivenKey) :-
 % `Vault` is a key-value dictionary (see dict.pl)
 % Assumes the password is correct (use isCorrectPassword first)
 openVault(Vault, Key) :- 
-    readNonceAndTag(Nonce,Tag),
-    readVault(Key,Nonce,Tag,Vault).
+    readVault(Key, Vault).
 
-readVault(Key,Nonce,Tag,Vault) :-
+readVault(Key, Vault) :-
     vaultFile(VaultFile),
-    readData(EncryptedVaultData, VaultFile),
-    decrypt(StringVaultData, Key, Nonce, Tag, EncryptedVaultData),
-    stringToDict(Vault, StringVaultData).
-
-readNonceAndTag(Nonce,Tag) :- 
-    nonceFile(NonceFile),
-    readHexBytes(Nonce, NonceFile),
-    tagFile(TagFile),
-    readHexBytes(Tag, TagFile).
+    vaultEncryptedFile(VaultEncryptedFile),
+    decryptFile(VaultFile, Key, VaultEncryptedFile),
+    readData(StringVaultData, VaultFile),
+    stringToDict(Vault, StringVaultData),
+    delete(VaultFile).
 
 
 % True if `Vault` is encrypted and saved to disk using the given password
 % `Vault` is a key-value dictionary (see dict.pl)
 lockVault(Key, Vault) :- 
-    writeVault(Key,Vault, Nonce, Tag),
-    writeKey(Key),
-    writeNonceAndTag(Nonce,Tag).
+    writeVault(Key,Vault),
+    writeKey(Key).
 
-writeVault(Key, Vault, Nonce, Tag) :-
+writeVault(Key, Vault) :-
     vaultFile(VaultFile),
+    vaultEncryptedFile(VaultEncryptedFile),
     dictToString(Vault, VaultString),
-    encrypt(VaultString, Key, Nonce, Tag, EncryptedVaultString),
-    writeData(EncryptedVaultString, VaultFile).
+    writeData(VaultString, VaultFile),
+    encryptFile(VaultFile, Key, VaultEncryptedFile),
+    delete(VaultFile).
 
 writeKey(Key) :-
     keyHashFile(KeyFile),
     hash(Key, KeyHash),
     writeData(KeyHash,KeyFile).
-
-writeNonceAndTag(Nonce,Tag) :- 
-    nonceFile(NonceFile),
-    writeHexBytes(Nonce, NonceFile),
-    tagFile(TagFile),
-    writeHexBytes(Tag, TagFile).
 
 
 % True if the given Vault has been flushed to disk with the given Key

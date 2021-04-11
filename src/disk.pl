@@ -22,6 +22,7 @@ readHexBytes(Bytes, Filename) :-
 writeData(Data, Filename) :-
     open(Filename, write, Stream),
     write(Stream, Data), 
+    flush_output(Stream),    
     close(Stream).
 
 
