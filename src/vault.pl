@@ -136,7 +136,6 @@ addToVault(record(Domain, Username, Password), Vault, NewVault) :-
 % True if NewVault is Vault with the given record removed
 % Domain must be bound. If Username is not bound, then all records for domain are removed.
 % If Username is bound, only the record for the given username is removed fromd domain.
-% TODO: implement this
 deleteFromVault(record(Domain,Username,_), Vault, NewVault) :-
     ( 
     newVault(Vault) ->
@@ -164,23 +163,13 @@ deleteFromVault(record(Domain,Username,_), Vault, NewVault) :-
 % If Domain is not bound, then Results = Vault
 % If Domain is bound, but Username is not, then Results is all results for the domain
 % If Domain and Username is bound, then Results is the record for that username in the domain
-% TODO: implement this
-getFromVault(record(Domain,Username,_), Vault, Results) :- 
-    (Vault = empty ->
-        Results = empty
-    ;(
-        not(nonvar(Domain)) ->
-            Results = Vault
-        ;
-            (not(nonvar(Username)) ->
-                (value(Domain, Records, Vault) -> 
-                    Results = dict(Domain, Records, empty)
-                ;
-                    Results = empty
-                );
-                (value(Domain, Records, Vault) -> 
-                    value(Username, UserPass, Records),
-                    Results = record(Domain, Username, UserPass)
-                ;
-                    Results = empty
-    )))).
+getFromVault(record(_,_,_), empty, empty) :-  !.                                               % empty Vault = empty result
+getFromVault(record(Domain,_,_), Vault, Vault) :- var(Domain), !.                              % unbound Domain
+getFromVault(record(Domain,Username,_), Vault, dict(Domain, Records, empty)) :- 
+    var(Username), value(Domain, Records, Vault), !.                                           % unbound username, domain exists
+getFromVault(record(_,Username,_), _, empty) :- 
+    var(Username), !.                                                                          % unbound username, domain does not exist
+getFromVault(record(Domain,Username,_), Vault, record(Domain, Username, UserPass)) :- 
+    nonvar(Username), value(Domain, Records, Vault), value(Username, UserPass, Records), !.    % bound username, record exists
+getFromVault(record(_,Username,_), _, empty) :- 
+    nonvar(Username), !.                                                                       % bound username, record does not exist
