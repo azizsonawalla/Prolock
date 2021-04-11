@@ -1,6 +1,7 @@
 :- module(cli).
 :- [src/errors].
 :- [src/vault].
+:- [src/util].
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicates for CLI interactions with user %
@@ -156,14 +157,7 @@ getInput(Prompt,Reply) :-
     prompt(_, FromattedPromptAtom),
     readln(ReplyAtomsList),
     atomic_list_concat(ReplyAtomsList, ReplyAtom),
-    atom_string(ReplyAtom, Reply).
-
-
-% True if String is the concatenation of all strings in List
-concatList(List,String) :-
-    reverse(List, Reverse),
-    foldl(concat, Reverse, "", StringOrAtom),
-    atom_string(StringOrAtom, String).    
+    atom_string(ReplyAtom, Reply). 
 
 
 % True if the given command is the exit command
