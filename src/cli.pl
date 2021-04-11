@@ -19,11 +19,6 @@ showLogo :-
     writeln("╚═╝      ╚═╝  ╚═╝  ╚═════╝  ╚══════╝  ╚═════╝   ╚═════╝ ╚═╝  ╚═╝"),
     nl.
 
-% % True if the user was shown the Prolock logo
-% showLogo :- 
-%     writeln('\e[H\e[2J'), % clear screen
-%     writeln("<<logo>>").
-
 
 % True if the user was shown the first-time welcome message
 showFirstTimeWelcome :- 
