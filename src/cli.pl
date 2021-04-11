@@ -184,7 +184,7 @@ prettyStringDict(dict(Key,Value, Rest), Indent, String) :-
             prettyStringDict(Value, NextLevelIndent, ValueString), !
         )
     ),
-    concatList(["\n", Indent, Key, ": ", ValueString, RestString, "\n"], String).
+    concatList(["\n", Indent, Key, ": ", ValueString, RestString], String).
 
 
 printOutputFromCommand("") :- !.

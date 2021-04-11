@@ -100,20 +100,34 @@ perform(delDomain, Vault, Key, NewVault, Output) :-
 % TODO: test this
 perform(lookup, Vault, Key, Vault, Output) :- 
     writeln("\nEnter details for record to lookup..."),
-    getDomain(Domain),
     Actions = [
-        command("1", "Show entire domain", lookupDomain),
-        command("2", "Look for record in domain", lookupCred)
+        command("1", "Show entire vault", lookupVault),
+        command("2", "Look up domain in vault", lookupDomain)
     ],
     writeln("\nSelect a search scope..."),
-    getChoice(Choice, Actions),
+    getChoice(Choice1, Actions),
     (
         (
-            Choice = lookupCred,
-            getUsername(Username), !
+            Choice1 = lookupVault, !
         );
         (
-            Choice = lookupDomain, !
+            Choice1 = lookupDomain, 
+            getDomain(Domain),
+            DomainActions = [
+                command("1", "Show entire domain", lookupDomain),
+                command("2", "Look for record in domain", lookupCred)
+            ],
+            writeln("\nSelect a search scope..."),
+            getChoice(Choice2, DomainActions),
+            (
+                (
+                    Choice2 = lookupCred,
+                    getUsername(Username), !
+                );
+                (
+                    Choice2 = lookupDomain, !
+                )
+            ), !
         )
     ),
     getFromVault(record(Domain,Username,_), Vault,Results),
