@@ -85,7 +85,8 @@ perform(delCred, Vault, Key, NewVault, Output) :-
     (
         (
             Results = empty,
-            concatList(["No such record: <", Username, ">", " in ", Domain], Output), !
+            concatList(["No such record: <", Username, ">", " in ", Domain], Output), 
+            NewVault = Vault, !
         );
         (
             not(Results = empty),
@@ -105,7 +106,8 @@ perform(delDomain, Vault, Key, NewVault, Output) :-
     (
         (
             Results = empty,
-            concatList(["No such domain:", Domain], Output), !
+            concatList(["No such domain:", Domain], Output), 
+            NewVault = Vault, !
         );
         (
             not(Results = empty),
