@@ -151,8 +151,6 @@ perform(lookup, Vault, Key, Vault, Output) :-
         )
     ),
     getFromVault(record(Domain,Username,_), Vault,Results),
-    term_string(Results, ResTermString),
-    writeln(ResTermString),    
     prettyStringResults(Results, ResultString),
     concatList([
         "Results from Vault:\n",
