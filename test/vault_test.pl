@@ -280,7 +280,7 @@ test(getFromVault_all_bound_valid) :-
     "www.difpeople.com",  TestDict6, empty
     ))),
     getFromVault(record("www.difpeople.com", "lily", "l123u"), Vault, Results),
-    Results = record("www.difpeople.com", "lily", "l123u").
+    Results = dict("www.difpeople.com",dict("lily","l123u",empty),empty).
 
 test(getFromVault_all_bound_invalid) :-
     testDict(2, TestDict2),
@@ -308,7 +308,7 @@ test(getFromVault_all_bound_valid2) :-
     "www.difpeople.com",  TestDict6, empty
     ))),
     getFromVault(record("www.difpeople.com", "lily", "wrongpass"), Vault, Results),
-    Results = record("www.difpeople.com", "lily", "l123u").
+    Results = dict("www.difpeople.com", dict("lily", "l123u", empty), empty).
 
 test(getFromVault_domain_unbound_valid) :-
     testDict(2, TestDict2),
@@ -390,7 +390,7 @@ test(testAllAddRemoveGet) :-
     getFromVault(record("www.google.com", _, "abc"), Vault5, Result1),
     Result1 = dict("www.google.com", TestDict7, empty),
 
-    getFromVault(record("www.google.com", "charles", _), Vault5, record("www.google.com", "charles", "c123g")),
+    getFromVault(record("www.google.com", "charles", _), Vault5, dict(www.google.com, dict("charles", "c123g", empty), empty),
     getFromVault(record("invalid", _, _), Vault5, empty),
     getFromVault(record("www.google.com", "invalid", _), Vault5, empty),
     getFromVault(record("www.samepass.com", _, _), Vault5, empty),
