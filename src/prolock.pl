@@ -163,6 +163,11 @@ perform(lookup, Vault, Key, Vault, Output) :-
 % TODO: test this
 perform(exit, Vault, Key, NewVault, _) :- 
     lockVault(Key, Vault),
+    showLogo,
+    nl,
+    writeln("Locking the vault. Please wait..."),
+    nl,
+    showLockingAnimation(30),
     sayBye.
 
 
