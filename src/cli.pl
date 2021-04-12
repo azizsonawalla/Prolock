@@ -36,6 +36,19 @@ showWelcomeBack :-
 
 % True if the user was shown the goodbye message
 sayBye :- 
+
+    write('\e[H\e[2J'),
+    writeln("      ██████      "),
+    writeln("    ██      ██    "),
+    writeln("    ██      ██    "),
+    writeln("  ██████████████  "),
+    writeln("██              ██"),
+    writeln("██      ██      ██"),
+    writeln("██      ██      ██"),
+    writeln("██              ██"),
+    writeln("  ██████████████  "),
+    writeln("                  "),
+    writeln("You data has been saved."),
     writeln("Vault has been locked."),
     writeln("Thank you and goodbye!"). 
 

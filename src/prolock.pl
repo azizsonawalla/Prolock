@@ -123,6 +123,20 @@ perform(lookup, Vault, Key, Vault) :-
 % NewVault is the updated Vault after the action has been done
 % TODO: test this
 perform(exit, Vault, Key, NewVault) :- 
+    writeln("                  "),
+    writeln("      ██████      "),
+    writeln("    ██      ██    "),
+    writeln("    ██      ██    "),
+    writeln("    ██            "),
+    writeln("  ██████████████  "),
+    writeln("██              ██"),
+    writeln("██      ██      ██"),
+    writeln("██      ██      ██"),
+    writeln("██              ██"),
+    writeln("  ██████████████  "),
+    writeln("                  "),
+    writeln("Encrypting your data..."),
+    sleep(1.5),
     lockVault(Key, Vault),
     sayBye.
 
