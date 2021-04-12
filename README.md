@@ -18,7 +18,7 @@ Local encrypted vault built entirely with Prolog.
 
 ### Clone the repository
 
-```bash
+```
 git clone git@github.com:azizsonawalla/Prolock.git
 ```
 
@@ -26,12 +26,12 @@ git clone git@github.com:azizsonawalla/Prolock.git
 
 From root, execute 
 
-```bash
+```
 :Prolock$ ./prolock.sh
 ```
  or 
  
- ```bash
+ ```
 :Prolock$ swipl src/prolock.pl
 ```
 
@@ -39,7 +39,7 @@ If this is your first time using, you should see the welcome screen.
 
 Create a master password for your vault, which will be used to encrypt/decrypt your data:
 
-```bash
+```
 █████╗   ██████╗   ██████╗  ██╗       ██████╗   ██████╗ ██╗  ██╗
 ██╔══██╗ ██╔══██╗ ██╔═══██╗ ██║      ██╔═══██╗ ██╔════╝ ██║ ██╔╝
 ██████╔╝ ██████╔╝ ██║   ██║ ██║      ██║   ██║ ██║      █████╔╝ 
@@ -64,7 +64,7 @@ You may use letters, numbers, and ~!@#$^&*.
 
 After creating a new vault you should see the following main menu every time you login:
 
-```bash
+```
 What would you like to do?
 
         1: Add a new username/password entry.
