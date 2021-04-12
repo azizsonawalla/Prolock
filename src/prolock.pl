@@ -18,7 +18,7 @@ newUserWorkflow :-
     showFirstTimeWelcome,
     askForNewKey(Key),
     newVault(Vault),
-    % flushVaultToDisk(Vault, Key),  % TODO: causes decryption bug when enabled
+    flushVaultToDisk(Vault, Key), 
     performVaultActions(Vault, Key, "").
 
 
@@ -66,8 +66,8 @@ perform(add, Vault, Key, NewVault, Output) :-
 % TODO: test this
 perform(del, Vault, Key, NewVault, Output) :- 
     Actions = [
-        command("1", "Delete a credential from a domain", delCred),
-        command("2", "Delete an entire domain", delDomain)
+        command("1", "Delete username/password", delCred),
+        command("2", "Delete entire domain", delDomain)
     ],
     writeln("What would you like to delete?"),
     getChoice(Choice, Actions),
@@ -81,8 +81,18 @@ perform(delCred, Vault, Key, NewVault, Output) :-
     writeln("\nEnter details for credential to delete..."),
     getDomain(Domain),
     getUsername(Username),
-    deleteFromVault(record(Domain,Username,_), Vault, NewVault), % TODO: handle case where record doesn't exist
-    concatList(["Success! Deleted <", Username, ">", " from ", Domain], Output).
+    getFromVault(record(Domain,Username,_), Vault,Results),
+    (
+        (
+            Results = empty,
+            concatList(["No such record: <", Username, ">", " in ", Domain], Output), !
+        );
+        (
+            not(Results = empty),
+            concatList(["Success! Deleted <", Username, ">", " from ", Domain], Output),
+            deleteFromVault(record(Domain,Username,_), Vault, NewVault), !
+        )
+    ).
 
 
 % True when the user has deleted an entire domain
@@ -91,18 +101,28 @@ perform(delCred, Vault, Key, NewVault, Output) :-
 perform(delDomain, Vault, Key, NewVault, Output) :-  
     writeln("\nEnter details for domain to delete..."),
     getDomain(Domain),
-    deleteFromVault(record(Domain,_,_), Vault, NewVault), % TODO: handle case where domain doesn't exist
-    concatList(["Success! Deleted ", Domain], Output).
+    getFromVault(record(Domain,_,_), Vault,Results),
+    (
+        (
+            Results = empty,
+            concatList(["No such domain:", Domain], Output), !
+        );
+        (
+            not(Results = empty),
+            concatList(["Success! Deleted ", Domain], Output),
+            deleteFromVault(record(Domain,_,_), Vault, NewVault), !
+        )
+    ).
 
 
 % True when the user has looked-up a username/password
 % NewVault is the updated Vault after the action has been done
 % TODO: test this
 perform(lookup, Vault, Key, Vault, Output) :- 
-    writeln("\nEnter details for record to lookup..."),
+    writeln("\nEnter details for search..."),
     Actions = [
-        command("1", "Show entire vault", lookupVault),
-        command("2", "Look up domain in vault", lookupDomain)
+        command("1", "Entire vault", lookupVault),
+        command("2", "Domain in vault", lookupDomain)
     ],
     writeln("\nSelect a search scope..."),
     getChoice(Choice1, Actions),

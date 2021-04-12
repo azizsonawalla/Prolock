@@ -77,15 +77,6 @@ writeKey(Key) :-
 flushVaultToDisk(Vault, Key) :- 
     lockVault(Key,Vault).
 
-
-% Vault structure:
-%   <Domain1>: (eg. www.amazon.com)
-%       <Username1>:<Password1> (eg. admin:password123)
-%       <Username2>:<Password2>
-%   <Domain2>:
-%       <Username1>:<Password1>
-%       ...
-
 % Vault structure:
 %   <Domain1>: (eg. www.amazon.com)
 %       <Username1>:<Password1> (eg. admin:password123)
@@ -150,7 +141,7 @@ getFromVault(record(Domain,Username,_), Vault, dict(Domain, Records, empty)) :-
     var(Username), value(Domain, Records, Vault), !.                                           % unbound username, domain exists
 getFromVault(record(_,Username,_), _, empty) :- 
     var(Username), !.                                                                          % unbound username, domain does not exist
-getFromVault(record(Domain,Username,_), Vault, record(Domain, Username, UserPass)) :- 
+getFromVault(record(Domain,Username,_), Vault, dict(Domain, dict(Username, UserPass, empty), empty)) :- 
     nonvar(Username), value(Domain, Records, Vault), value(Username, UserPass, Records), !.    % bound username, record exists
 getFromVault(record(_,Username,_), _, empty) :- 
     nonvar(Username), !.                                                                       % bound username, record does not exist
