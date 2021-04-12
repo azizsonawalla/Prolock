@@ -182,7 +182,7 @@ Select a search scope...
         2: Look for record in domain.
 
 > Enter number: 2
-> Username: zack123
+> Username: zack@google.com
 
 ```
 
