@@ -1,16 +1,45 @@
-# Prolock
-Local encrypted vault built with Prolog.
+# :lock: ProLock
 
-## Usage
+Local encrypted vault built entirely with Prolog.
+
+:heavy_check_mark: AES-256 (military grade) encryption for vault data
+
+:heavy_check_mark: SHA-256 irreversable password hashing
+
+:heavy_check_mark: Randomized nonce salted encryption, with 1000 iterations
+
+## Requirements
+
+* SWI-Prolog >= 7.6.4
+* OpenSSL >= 1.1.1f  (31 Mar 2020)
+* Linux, MacOS or Windows WSL2
+
+## Quickstart
+
+### Clone the repository
+
+```bash
+git clone git@github.com:azizsonawalla/Prolock.git
+```
 
 ### Launch the Program
 
-From root, execute `./prolock.sh` or `swipl src/prolock.pl`
+From root, execute 
+
+```bash
+:Prolock$ ./prolock.sh
+```
+ or 
+ 
+ ```bash
+:Prolock$ swipl src/prolock.pl
+```
 
 If this is your first time using, you should see the welcome screen.
 
 Create a master password for your vault, which will be used to encrypt/decrypt your data:
-```
+
+```bash
 █████╗   ██████╗   ██████╗  ██╗       ██████╗   ██████╗ ██╗  ██╗
 ██╔══██╗ ██╔══██╗ ██╔═══██╗ ██║      ██╔═══██╗ ██╔════╝ ██║ ██╔╝
 ██████╔╝ ██████╔╝ ██║   ██║ ██║      ██║   ██║ ██║      █████╔╝ 
@@ -25,16 +54,17 @@ Create a new vault to get started.
 Set new password for vault.
 You may use letters, numbers, and ~!@#$^&*.
 
-> New vault password: 312ubc123
-> Re-enter password: 312ubc123
+> New vault password: <your master password>
+> Re-enter password: <your master password>
 ```
 
-### Create a vault
+:exclamation: Make sure you set a strong password and do not forget it! The vault has no recovery mechanism.
 
-Type in any password, for example: `312ubc123`, and hit enter.
+### Perform vault actions
 
-You should see the main menu:
-```
+After creating a new vault you should see the following main menu every time you login:
+
+```bash
 What would you like to do?
 
         1: Add a new username/password entry.
@@ -44,6 +74,8 @@ What would you like to do?
 
 > Enter number: 
 ```
+
+Choose an action by entering a value between 1 and 4.
 
 ### How to add a record
 
@@ -307,4 +339,6 @@ To run the tests, use the following command:
 For example:
 ```swipl test/dictionary_test.pl```
 
+## Disclaimer
 
+This software is distributed with no guarantees whatsoever. Use at your own risk.
