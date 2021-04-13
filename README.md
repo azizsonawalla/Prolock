@@ -8,6 +8,8 @@ Local encrypted vault built entirely with Prolog.
 
 :heavy_check_mark: Randomized nonce salted encryption, with 1000 iterations
 
+![Prolock_gif](https://user-images.githubusercontent.com/35513492/114596081-2a452c00-9c5d-11eb-9e18-d0bd5e930619.gif)
+
 ## Requirements
 
 * SWI-Prolog >= 7.6.4
